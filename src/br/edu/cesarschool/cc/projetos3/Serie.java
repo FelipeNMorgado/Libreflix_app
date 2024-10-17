@@ -1,3 +1,5 @@
+package br.edu.cesarschool.cc.projetos3;
+
 public class Serie {
 	
 	private String titulo;

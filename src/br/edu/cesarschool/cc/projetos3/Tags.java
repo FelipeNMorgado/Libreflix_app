@@ -1,3 +1,5 @@
+package br.edu.cesarschool.cc.projetos3;
+
 public enum Tags {
 	
 	ACAO("Ação"),
