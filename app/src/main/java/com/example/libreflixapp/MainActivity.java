@@ -23,13 +23,16 @@ public class MainActivity extends AppCompatActivity {
             return insets;
         });
 
+        DatabaseHelper dbHelper = new DatabaseHelper(this);
+
+
         if (getSupportActionBar() != null) {
             getSupportActionBar().hide();
         }
 
         new Handler().postDelayed(() -> {
 
-            Intent intent = new Intent(MainActivity.this, PaginaPrincipalActivity.class);
+            Intent intent = new Intent(MainActivity.this, DatabaseHelperActivity.class);
             startActivity(intent);
 
             finish();
