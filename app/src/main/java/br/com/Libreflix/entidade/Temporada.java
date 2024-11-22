@@ -9,6 +9,10 @@ public class Temporada {
         this.qtdEpisodio = qtdEpisodio;
     }
 
+    public Temporada(Episodio[] episodios) {
+        this.episodios = episodios;
+    }
+
     public Episodio[] getEpisodios() {
         return episodios;
     }

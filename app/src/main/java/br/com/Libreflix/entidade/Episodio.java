@@ -15,6 +15,11 @@ public class Episodio {
         this.tempoVisto = tempoVisto;
     }
 
+    public Episodio (String titulo){
+        this.titulo = titulo;
+    }
+
+
     public String getTitulo() {
         return titulo;
     }

@@ -10,6 +10,9 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import br.com.Libreflix.entidade.Episodio;
+import br.com.Libreflix.entidade.Temporada;
+
 public class MainActivity extends AppCompatActivity {
 
     @Override
@@ -24,14 +27,13 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-
         if (getSupportActionBar() != null) {
             getSupportActionBar().hide();
         }
 
         new Handler().postDelayed(() -> {
 
-            Intent intent = new Intent(MainActivity.this, DatabaseHelperActivity.class);
+            Intent intent = new Intent(MainActivity.this, PaginaPrincipalActivity.class);
             startActivity(intent);
 
             finish();
