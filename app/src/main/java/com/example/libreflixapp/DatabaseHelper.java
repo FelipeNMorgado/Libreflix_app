@@ -13,9 +13,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "libreflix.db";
     private static final int DATABASE_VERSION = 1;
+    private Context context;
 
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
+        this.context = context;
     }
 
     @Override
@@ -34,8 +36,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void adicionarFilme(String titulo, String descricao) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put("titulo", titulo);
+
+        // Gera o URI automaticamente
+        String videoUri = "android.resource://" + context.getPackageName() + "/raw/" + titulo;
+
+        values.put("titulo", videoUri);
         values.put("descricao", descricao);
+
         db.insert("filmes", null, values);
         db.close();
     }
@@ -61,5 +68,20 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         cursor.close();
         db.close();
         return filmes;
+
+    }
+
+    public String getTituloById(int id) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String query = "SELECT titulo FROM filmes WHERE id = ?";
+        Cursor cursor = db.rawQuery(query, new String[]{String.valueOf(id)});
+
+        if (cursor.moveToFirst()) {
+            String titulo = cursor.getString(0);
+            cursor.close();
+            return titulo;
+        }
+        cursor.close();
+        return null;
     }
 }

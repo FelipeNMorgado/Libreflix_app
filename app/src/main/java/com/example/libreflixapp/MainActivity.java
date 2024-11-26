@@ -10,6 +10,11 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import br.com.Libreflix.telas.TelaCadastro;
+import br.com.Libreflix.telas.TelaCadastroLogin;
+import br.com.Libreflix.telas.TelaLogin;
+import br.com.Libreflix.telas.TelaPesquisa;
+import br.com.Libreflix.telas.TelaPrincipal;
 import br.com.Libreflix.entidade.Episodio;
 import br.com.Libreflix.entidade.Temporada;
 
@@ -33,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
 
         new Handler().postDelayed(() -> {
 
-            Intent intent = new Intent(MainActivity.this, PaginaPrincipalActivity.class);
+            Intent intent = new Intent(MainActivity.this, TelaPrincipal.class);
             startActivity(intent);
 
             finish();

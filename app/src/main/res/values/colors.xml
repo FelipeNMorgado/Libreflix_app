@@ -3,4 +3,5 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="Libreflix_Background">#14181c</color>
+    <color name="Botton_Background">#d7821e</color>
 </resources>

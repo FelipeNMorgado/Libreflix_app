@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/Libreflix_Background"
+    android:orientation="horizontal"
+    tools:context=".MainActivity">
+
+    <LinearLayout
+        android:layout_marginTop="0dp">
+
+    <Button
+            android:id="@+id/myButton1"
+            android:layout_width="82dp"
+            android:layout_height="33dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="0dp"
+            android:text="Voltar"
+            app:cornerRadius="5dp"
+            android:padding="0dp"
+            android:backgroundTint="#156B75"
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="5dp"/>
+
+    </LinearLayout>
+
+    <ImageView
+        android:layout_width="400dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="245dp"
+        android:gravity="center"
+        android:src="@drawable/logo_inicio" />
+
+    <TextView
+        android:layout_marginTop="50dp"
+        android:gravity="center"
+        android:text="Já possui uma conta?"
+        android:textColor="@color/white"
+        android:textSize="15dp" />
+
+    <LinearLayout
+        android:gravity="center"
+        android:layout_marginTop="10dp">
+
+        <Button
+            android:id="@+id/myButton2"
+            android:layout_width="82dp"
+            android:layout_height="33dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="0dp"
+            android:text="Entre agora"
+            app:cornerRadius="0dp"
+            android:padding="0dp"
+            android:backgroundTint="#156B75"/>
+
+    </LinearLayout>
+
+    <TextView
+        android:layout_marginTop="28dp"
+        android:gravity="center"
+        android:text="Ainda não possui uma conta?"
+        android:textColor="@color/white"
+        android:textSize="15dp" />
+
+    <LinearLayout
+        android:gravity="center"
+        android:layout_marginTop="10dp">
+
+        <Button
+            android:id="@+id/myButton3"
+            android:layout_width="150dp"
+            android:layout_height="33dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="0dp"
+            android:text="Criar uma nova conta"
+            app:cornerRadius="0dp"
+            android:padding="0dp"
+            android:backgroundTint="#d7821e"/>
+
+    </LinearLayout>
+
+</TableLayout>

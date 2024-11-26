@@ -1,10 +1,13 @@
 package com.example.libreflixapp;
 
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.MediaController;
+import android.widget.Toast;
 import android.widget.VideoView;
 
 import androidx.activity.EdgeToEdge;
@@ -32,20 +35,41 @@ public class PaginaPrincipalActivity extends AppCompatActivity {
 
         videoView = findViewById(R.id.videoView);
 
-
-        // Configurar controles
         MediaController mediaController = new MediaController(this);
         mediaController.setAnchorView(videoView);
         videoView.setMediaController(mediaController);
 
+        String episodeName = "video1";
+
+        String videoUri = "android.resource://" + getPackageName() + "/raw/" + episodeName;
+
         Episodio[] episodios = new Episodio[]{
-                new Episodio("android.resource://" + getPackageName() + "/" + R.raw.video1),
+                new Episodio("android.resource://" + getPackageName() + "/raw/" + episodeName),
                 new Episodio("android.resource://" + getPackageName() + "/" + R.raw.video2)
         };
 
         temporada1 = new Temporada(episodios);
 
-        Button btnPrevious = findViewById(R.id.btnPrevious);
+
+        DatabaseHelper databaseHelper = new DatabaseHelper(this);
+
+        String titulo = databaseHelper.getTituloById(3);
+
+
+
+        if (titulo != null) {
+            String videoPath = titulo;
+
+            VideoView videoView = findViewById(R.id.videoView);
+            videoView.setVideoURI(Uri.parse(videoPath));
+            videoView.requestFocus();
+            videoView.start();
+        } else {
+            Toast.makeText(this, "Título não encontrado!", Toast.LENGTH_SHORT).show();
+        }
+
+
+        /*Button btnPrevious = findViewById(R.id.btnPrevious);
         Button btnNext = findViewById(R.id.btnNext);
 
         // Listener para o botão "Anterior"
@@ -104,6 +128,6 @@ public class PaginaPrincipalActivity extends AppCompatActivity {
         if (currentPosition > 0) {
             videoView.seekTo(currentPosition);
             videoView.start();
-        }
+        }*/
     }
 }

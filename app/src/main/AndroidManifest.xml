@@ -13,6 +13,24 @@
         android:theme="@style/Theme.LibreflixApp"
         tools:targetApi="31">
         <activity
+            android:name="br.com.Libreflix.telas.TelaPesquisa"
+            android:exported="false" />
+        <activity
+            android:name="br.com.Libreflix.telas.TelaCadastro"
+            android:exported="false" />
+        <activity
+            android:name="br.com.Libreflix.telas.TelaLogin"
+            android:exported="false" />
+        <activity
+            android:name="br.com.Libreflix.telas.TelaCadastroLogin"
+            android:exported="false" />
+        <activity
+            android:name="br.com.Libreflix.telas.TelaPrincipal"
+            android:exported="false" />
+        <activity
+            android:name="br.com.Libreflix.telas.MainTelas"
+            android:exported="false" />
+        <activity
             android:name=".DatabaseHelperActivity"
             android:exported="false" />
         <activity
