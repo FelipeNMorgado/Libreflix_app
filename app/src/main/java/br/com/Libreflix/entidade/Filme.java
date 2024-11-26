@@ -1,30 +1,36 @@
 package br.com.Libreflix.entidade;
 
 public class Filme extends Episodio {
-    private Tags[] tags;
+    private long id;
+    private String tags;
     private int ano;
     private int classificacaoIndicativa;
-    private boolean tituloVisto;
-    private boolean favorito;
     private String diretor;
-    private String[] elenco;
+    private String elenco;
 
-    public Filme(String titulo, String descricao, boolean verificarVisualizacao, long duracao, long tempoVisto, Tags[] tags, int ano, int classificacaoIndicativa, boolean tituloVisto, boolean favorito, String diretor, String[] elenco) {
-        super(titulo, descricao, verificarVisualizacao, duracao, tempoVisto);
+    public Filme(long id, String titulo, String descricao, long duracao, long tempoVisto, String tags, int ano, int classificacaoIndicativa, String diretor, String elenco) {
+        super(titulo, descricao, duracao);
+        this.id = id;
         this.tags = tags;
         this.ano = ano;
         this.classificacaoIndicativa = classificacaoIndicativa;
-        this.tituloVisto = tituloVisto;
-        this.favorito = favorito;
         this.diretor = diretor;
         this.elenco = elenco;
     }
 
-    public Tags[] getTags() {
+    public long getId(){
+        return id;
+    }
+
+    public void setId(long id){
+        this.id = id;
+    }
+
+    public String getTags() {
         return tags;
     }
 
-    public void setTags(Tags[] tags) {
+    public void setTags(String tags) {
         this.tags = tags;
     }
 
@@ -44,22 +50,6 @@ public class Filme extends Episodio {
         this.classificacaoIndicativa = classificacaoIndicativa;
     }
 
-    public boolean isTituloVisto() {
-        return tituloVisto;
-    }
-
-    public void setTituloVisto(boolean tituloVisto) {
-        this.tituloVisto = tituloVisto;
-    }
-
-    public boolean isFavorito() {
-        return favorito;
-    }
-
-    public void setFavorito(boolean favorito) {
-        this.favorito = favorito;
-    }
-
     public String getDiretor() {
         return diretor;
     }
@@ -68,11 +58,11 @@ public class Filme extends Episodio {
         this.diretor = diretor;
     }
 
-    public String[] getElenco() {
+    public String getElenco() {
         return elenco;
     }
 
-    public void setElenco(String[] elenco) {
+    public void setElenco(String elenco) {
         this.elenco = elenco;
     }
 }

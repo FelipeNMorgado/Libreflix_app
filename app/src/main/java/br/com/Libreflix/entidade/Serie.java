@@ -1,64 +1,62 @@
 package br.com.Libreflix.entidade;
 
-public class Serie {
-    private Tags[] tags;
-    private Temporada[] temporadas;
-    private String titulo;
-    private String descricao;
+public class Serie extends Episodio{
+    private long id;
+    private String tags;
+    private String episodios;
+    private String tituloSerie;
+    private String descricaoSerie;
     private int ano;
     private int classificacaoIndicativa;
-    private boolean tituloVisto;
-    private boolean favorito;
     private String diretor;
-    private String[] elenco;
+    private String elenco;
     private int qntdTemporadas;
     private int qntdEpisodiosTotais;
 
-    public Serie(Tags[] tags, Temporada[] temporadas, String titulo, String descricao, int ano, int classificacaoIndicativa, boolean tituloVisto, boolean favorito, String diretor, String[] elenco, int qntdTemporadas, int qntdEpisodiosTotais) {
+    public Serie(long id, String tags, String episodios, String tituloSerie, String descricaoSerie, int ano, int classificacaoIndicativa, String diretor, String elenco, int qntdTemporadas, int qntdEpisodiosTotais, String tituloEpisodio, String descicaoEpisodio, long duracaoEpisodio) {
+        super(tituloEpisodio, descicaoEpisodio, duracaoEpisodio);
+        this.id = id;
         this.tags = tags;
-        this.temporadas = temporadas;
-        this.titulo = titulo;
-        this.descricao = descricao;
+        this.tituloSerie = tituloSerie;
+        this.descricaoSerie = descricaoSerie;
         this.ano = ano;
         this.classificacaoIndicativa = classificacaoIndicativa;
-        this.tituloVisto = tituloVisto;
-        this.favorito = favorito;
         this.diretor = diretor;
         this.elenco = elenco;
         this.qntdTemporadas = qntdTemporadas;
         this.qntdEpisodiosTotais = qntdEpisodiosTotais;
     }
 
-    public Tags[] getTags() {
+    public long getId(){
+        return id;
+    }
+
+    public void setId(long id){
+        this.id = id;
+    }
+
+    public String getTags() {
         return tags;
     }
 
-    public void setTags(Tags[] tags) {
+    public void setTags(String tags) {
         this.tags = tags;
     }
 
-    public Temporada[] getTemporadas() {
-        return temporadas;
+    public String getTituloSerie() {
+        return tituloSerie;
     }
 
-    public void setTemporadas(Temporada[] temporadas) {
-        this.temporadas = temporadas;
+    public void setTituloSerie(String titulo) {
+        this.tituloSerie = titulo;
     }
 
-    public String getTitulo() {
-        return titulo;
+    public String getDescricaoSerie() {
+        return descricaoSerie;
     }
 
-    public void setTitulo(String titulo) {
-        this.titulo = titulo;
-    }
-
-    public String getDescricao() {
-        return descricao;
-    }
-
-    public void setDescricao(String descricao) {
-        this.descricao = descricao;
+    public void setDescricaoSerie(String descricao) {
+        this.descricaoSerie = descricao;
     }
 
     public int getAno() {
@@ -77,22 +75,6 @@ public class Serie {
         this.classificacaoIndicativa = classificacaoIndicativa;
     }
 
-    public boolean isTituloVisto() {
-        return tituloVisto;
-    }
-
-    public void setTituloVisto(boolean tituloVisto) {
-        this.tituloVisto = tituloVisto;
-    }
-
-    public boolean isFavorito() {
-        return favorito;
-    }
-
-    public void setFavorito(boolean favorito) {
-        this.favorito = favorito;
-    }
-
     public String getDiretor() {
         return diretor;
     }
@@ -101,11 +83,11 @@ public class Serie {
         this.diretor = diretor;
     }
 
-    public String[] getElenco() {
+    public String getElenco() {
         return elenco;
     }
 
-    public void setElenco(String[] elenco) {
+    public void setElenco(String elenco) {
         this.elenco = elenco;
     }
 

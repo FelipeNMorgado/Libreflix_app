@@ -9,11 +9,13 @@ import android.database.sqlite.SQLiteOpenHelper;
 import java.util.ArrayList;
 import java.util.List;
 
+import br.com.Libreflix.entidade.Filme;
+
 public class DatabaseHelper extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "libreflix.db";
     private static final int DATABASE_VERSION = 1;
-    private Context context;
+    private final Context context;
 
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -22,7 +24,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        String CREATE_TABLE_FILMES = "CREATE TABLE filmes (id INTEGER PRIMARY KEY AUTOINCREMENT, titulo TEXT, descricao TEXT)";
+        String CREATE_TABLE_FILMES = "CREATE TABLE filmes (id LONG PRIMARY KEY AUTOINCREMENT, titulo TEXT, videoUri TEXT, descricao TEXT, duracao LONG, tags TEXT, ano INTEGER, classificacaoIndicativa INTEGER, diretor TEXT, elenco TEXT)";
         db.execSQL(CREATE_TABLE_FILMES);
     }
 
@@ -32,23 +34,33 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    // Método para adicionar um filme
-    public void adicionarFilme(String titulo, String descricao) {
+    public void adicionarFilme(Filme filme) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
 
-        // Gera o URI automaticamente
-        String videoUri = "android.resource://" + context.getPackageName() + "/raw/" + titulo;
+        String videoUri = "android.resource://" + context.getPackageName() + "/raw/" + filme.getTitulo();
 
-        values.put("titulo", videoUri);
-        values.put("descricao", descricao);
+        values.put("titulo", filme.getTitulo());
+        values.put("videoUri", videoUri);
+        values.put("descricao", filme.getDescricao());
+        values.put("duracao", filme.getDuracao());
+        values.put("tags", filme.getTags());
+        values.put("ano", filme.getAno());
+        values.put("classificacaoIndicativa", filme.getClassificacaoIndicativa());
+        values.put("diretor", filme.getDiretor());
+        values.put("elenco", filme.getElenco());
 
         db.insert("filmes", null, values);
         db.close();
     }
 
+    public void adicionarUsuario(){
+
+    }
+
+
     // Método para listar filmes
-    public List<String> listarFilmes() {
+    /*public List<String> listarFilmes() {
         List<String> filmes = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.query("filmes", new String[]{"titulo", "descricao"}, null, null, null, null, null);
@@ -68,10 +80,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         cursor.close();
         db.close();
         return filmes;
+    }*/
 
-    }
-
-    public String getTituloById(int id) {
+    public String consultarFilme(long id) {
         SQLiteDatabase db = this.getReadableDatabase();
         String query = "SELECT titulo FROM filmes WHERE id = ?";
         Cursor cursor = db.rawQuery(query, new String[]{String.valueOf(id)});
@@ -84,4 +95,21 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         cursor.close();
         return null;
     }
+
+    public String consultarFilme(String titulo) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String query = "SELECT titulo FROM filmes WHERE titulo = ?";
+        Cursor cursor = db.rawQuery(query, new String[]{String.valueOf(titulo)});
+
+        if (cursor.moveToFirst()) {
+            String titulo1 = cursor.getString(0);
+            cursor.close();
+            return titulo1;
+        }
+        cursor.close();
+        return null;
+    }
+
+
+
 }

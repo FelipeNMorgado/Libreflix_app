@@ -42,6 +42,7 @@
             android:textSize="15dp" />
 
         <EditText
+            android:id="@+id/editTextTextNome"
             android:layout_width="match_parent"
             android:layout_height="20dp"
             android:layout_marginLeft="10dp"
@@ -58,7 +59,7 @@
             android:textColor="#A9A9A9" />
 
         <EditText
-            android:id="@+id/editTextTextEmailAddress3"
+            android:id="@+id/editTextTextEmailAddress"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
@@ -77,6 +78,7 @@
             android:textColor="#A9A9A9" />
 
         <EditText
+            android:id="@+id/editTextTextUsername"
             android:layout_width="match_parent"
             android:layout_height="20dp"
             android:layout_marginLeft="10dp"
@@ -93,6 +95,7 @@
             android:textColor="#A9A9A9" />
 
         <EditText
+            android:id="@+id/editTextTextSenha"
             android:layout_width="match_parent"
             android:layout_height="20dp"
             android:layout_marginLeft="10dp"
@@ -115,13 +118,6 @@
             app:cornerRadius="5dp"
             tools:layout_editor_absoluteX="100dp"
             tools:layout_editor_absoluteY="481dp" />
-
-        <EditText
-            android:id="@+id/editTextTextEmailAddress2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:inputType="textEmailAddress" />
 
     </LinearLayout>
 
