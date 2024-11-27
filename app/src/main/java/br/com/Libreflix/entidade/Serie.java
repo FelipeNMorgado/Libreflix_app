@@ -1,10 +1,7 @@
 package br.com.Libreflix.entidade;
 
 public class Serie extends Episodio{
-    private long id;
     private String tags;
-    private String tituloSerie;
-    private String descricaoSerie;
     private int ano;
     private int classificacaoIndicativa;
     private String diretor;
@@ -12,12 +9,9 @@ public class Serie extends Episodio{
     private int qntdTemporadas;
     private int qntdEpisodiosTotais;
 
-    public Serie(long id, String tags, String tituloSerie, String descricaoSerie, int ano, int classificacaoIndicativa, String diretor, String elenco, int qntdTemporadas, int qntdEpisodiosTotais, String tituloEpisodio, String descicaoEpisodio, long duracaoEpisodio) {
-        super(tituloEpisodio, descicaoEpisodio, duracaoEpisodio);
-        this.id = id;
+    public Serie(long id, String uriVidio, String tags, String tituloSerie, String descricaoSerie, int ano, int classificacaoIndicativa, String diretor, String elenco, int qntdTemporadas, int qntdEpisodiosTotais, String tituloEpisodio, String descicaoEpisodio, long duracaoEpisodio) {
+        super(id, uriVidio, tituloEpisodio, descicaoEpisodio, duracaoEpisodio);
         this.tags = tags;
-        this.tituloSerie = tituloSerie;
-        this.descricaoSerie = descricaoSerie;
         this.ano = ano;
         this.classificacaoIndicativa = classificacaoIndicativa;
         this.diretor = diretor;
@@ -26,13 +20,6 @@ public class Serie extends Episodio{
         this.qntdEpisodiosTotais = qntdEpisodiosTotais;
     }
 
-    public long getId(){
-        return id;
-    }
-
-    public void setId(long id){
-        this.id = id;
-    }
 
     public String getTags() {
         return tags;
@@ -40,22 +27,6 @@ public class Serie extends Episodio{
 
     public void setTags(String tags) {
         this.tags = tags;
-    }
-
-    public String getTituloSerie() {
-        return tituloSerie;
-    }
-
-    public void setTituloSerie(String titulo) {
-        this.tituloSerie = titulo;
-    }
-
-    public String getDescricaoSerie() {
-        return descricaoSerie;
-    }
-
-    public void setDescricaoSerie(String descricao) {
-        this.descricaoSerie = descricao;
     }
 
     public int getAno() {

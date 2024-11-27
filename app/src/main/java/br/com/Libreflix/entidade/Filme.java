@@ -1,29 +1,19 @@
 package br.com.Libreflix.entidade;
 
 public class Filme extends Episodio {
-    private long id;
     private String tags;
     private int ano;
     private int classificacaoIndicativa;
     private String diretor;
     private String elenco;
 
-    public Filme(long id, String titulo, String descricao, long duracao, String tags, int ano, int classificacaoIndicativa, String diretor, String elenco) {
-        super(titulo, descricao, duracao);
-        this.id = id;
+    public Filme(long id, String uriVidio, String titulo, String descricao, long duracao, String tags, int ano, int classificacaoIndicativa, String diretor, String elenco) {
+        super(id,uriVidio, titulo, descricao, duracao);
         this.tags = tags;
         this.ano = ano;
         this.classificacaoIndicativa = classificacaoIndicativa;
         this.diretor = diretor;
         this.elenco = elenco;
-    }
-
-    public long getId(){
-        return id;
-    }
-
-    public void setId(long id){
-        this.id = id;
     }
 
     public String getTags() {
@@ -66,5 +56,3 @@ public class Filme extends Episodio {
         this.elenco = elenco;
     }
 }
-
-
