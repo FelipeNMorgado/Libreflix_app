@@ -17,12 +17,10 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import br.com.Libreflix.entidade.Episodio;
-import br.com.Libreflix.entidade.Temporada;
 
 public class PaginaPrincipalActivity extends AppCompatActivity {
 
     private VideoView videoView;
-    private Temporada temporada1;
     private int currentPosition = 0;
     private int currentEpisodeIndex = 0;
 
@@ -43,21 +41,19 @@ public class PaginaPrincipalActivity extends AppCompatActivity {
 
         String videoUri = "android.resource://" + getPackageName() + "/raw/" + episodeName;
 
-        Episodio[] episodios = new Episodio[]{
+        /*Episodio[] episodios = new Episodio[]{
                 new Episodio("android.resource://" + getPackageName() + "/raw/" + episodeName),
                 new Episodio("android.resource://" + getPackageName() + "/" + R.raw.video2)
-        };
-
-        temporada1 = new Temporada(episodios);
+        };*/
 
 
         DatabaseHelper databaseHelper = new DatabaseHelper(this);
 
-        String titulo = databaseHelper.getTituloById(3);
+        //String titulo = databaseHelper.getTituloById(3);
 
 
 
-        if (titulo != null) {
+        /*if (titulo != null) {
             String videoPath = titulo;
 
             VideoView videoView = findViewById(R.id.videoView);
@@ -66,7 +62,7 @@ public class PaginaPrincipalActivity extends AppCompatActivity {
             videoView.start();
         } else {
             Toast.makeText(this, "Título não encontrado!", Toast.LENGTH_SHORT).show();
-        }
+        }*/
 
 
         /*Button btnPrevious = findViewById(R.id.btnPrevious);

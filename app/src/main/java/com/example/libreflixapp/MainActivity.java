@@ -16,7 +16,6 @@ import br.com.Libreflix.telas.TelaLogin;
 import br.com.Libreflix.telas.TelaPesquisa;
 import br.com.Libreflix.telas.TelaPrincipal;
 import br.com.Libreflix.entidade.Episodio;
-import br.com.Libreflix.entidade.Temporada;
 
 public class MainActivity extends AppCompatActivity {
 

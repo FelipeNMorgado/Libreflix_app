@@ -1,5 +1,7 @@
 package br.com.Libreflix.entidade;
 
+import br.com.Libreflix.mediators.MediatorUsuario;
+
 public class Usuario {
     private String nome;
     private String email;

@@ -1,6 +1,9 @@
 package br.com.Libreflix.telas;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.MediaController;
 import android.widget.VideoView;
 
@@ -11,8 +14,6 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.example.libreflixapp.R;
-
-import br.com.Libreflix.entidade.Temporada;
 
 public class TelaPesquisa extends AppCompatActivity {
 
@@ -29,6 +30,27 @@ public class TelaPesquisa extends AppCompatActivity {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
+        });
+
+        // Configura o botão
+        Button btnNavegar1 = findViewById(R.id.button5);
+        btnNavegar1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Cria o Intent para ir para a OutraActivity
+                Intent intent = new Intent(TelaPesquisa.this, TelaCadastroLogin.class);
+                startActivity(intent);
+            }
+        });
+
+        Button btnNavegar2 = findViewById(R.id.button2);
+        btnNavegar2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Cria o Intent para ir para a OutraActivity
+                Intent intent = new Intent(TelaPesquisa.this, TelaPrincipal.class);
+                startActivity(intent);
+            }
         });
 
     }

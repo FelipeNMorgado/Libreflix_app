@@ -38,8 +38,8 @@ public class DatabaseHelperActivity extends AppCompatActivity {
                 String descricao = editTextDescricao.getText().toString();
 
                 if (!titulo.isEmpty() && !descricao.isEmpty()) {
-                    databaseHelper.adicionarFilme(titulo, descricao);
-                    atualizarListaFilmes();
+                   // databaseHelper.adicionarFilme(titulo, descricao);
+                   // atualizarListaFilmes();
                     editTextTitulo.setText("");
                     editTextDescricao.setText("");
                 }
@@ -47,12 +47,12 @@ public class DatabaseHelperActivity extends AppCompatActivity {
         });
 
         // Atualiza a lista ao abrir o app
-        atualizarListaFilmes();
+        //atualizarListaFilmes();
     }
 
-    private void atualizarListaFilmes() {
+    /*private void atualizarListaFilmes() {
         List<String> filmes = databaseHelper.listarFilmes();
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, filmes);
         listViewFilmes.setAdapter(adapter);
-    }
+    }*/
 }

@@ -1,6 +1,9 @@
 package br.com.Libreflix.telas;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.MediaController;
 import android.widget.VideoView;
 
@@ -11,8 +14,6 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.example.libreflixapp.R;
-
-import br.com.Libreflix.entidade.Temporada;
 
 public class TelaCadastroLogin extends AppCompatActivity {
 
@@ -29,6 +30,39 @@ public class TelaCadastroLogin extends AppCompatActivity {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
+        });
+
+        // Configura o botão
+        Button btnNavegar1 = findViewById(R.id.myButton1);
+        btnNavegar1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Cria o Intent para ir para a OutraActivity
+                Intent intent = new Intent(TelaCadastroLogin.this, TelaPrincipal.class);
+                startActivity(intent);
+            }
+        });
+
+        // Configura o botão
+        Button btnNavegar2 = findViewById(R.id.myButton2);
+        btnNavegar2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Cria o Intent para ir para a OutraActivity
+                Intent intent = new Intent(TelaCadastroLogin.this, TelaLogin.class);
+                startActivity(intent);
+            }
+        });
+
+        // Configura o botão
+        Button btnNavegar3 = findViewById(R.id.myButton3);
+        btnNavegar3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Cria o Intent para ir para a OutraActivity
+                Intent intent = new Intent(TelaCadastroLogin.this, TelaCadastro.class);
+                startActivity(intent);
+            }
         });
 
     }
