@@ -1,36 +1,16 @@
 package br.com.Libreflix.entidade;
 
 public class Usuario {
-    private Filme[] filmes;
-    private Serie[] series;
     private String nome;
     private String email;
     private String userName;
     private String senha;
 
-    public Usuario(Filme[] filmes, Serie[] series, String nome, String email, String userName, String senha) {
-        this.filmes = filmes;
-        this.series = series;
+    public Usuario(String nome, String email, String userName, String senha) {
         this.nome = nome;
         this.email = email;
         this.userName = userName;
         this.senha = senha;
-    }
-
-    public Filme[] getFilmes() {
-        return filmes;
-    }
-
-    public void setFilmes(Filme[] filmes) {
-        this.filmes = filmes;
-    }
-
-    public Serie[] getSeries() {
-        return series;
-    }
-
-    public void setSeries(Serie[] series) {
-        this.series = series;
     }
 
     public String getNome() {

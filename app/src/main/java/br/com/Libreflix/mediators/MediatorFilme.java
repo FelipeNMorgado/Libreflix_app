@@ -1,14 +1,12 @@
 package br.com.Libreflix.mediators;
 
-import com.example.libreflixapp.DatabaseHelper;
-
 import br.com.Libreflix.entidade.Filme;
 import br.com.Libreflix.repositorios.RepositorioFilme;
 
-public class mediatorFilme {
+public class MediatorFilme {
 
     private Filme filme;
-    private RepositorioFilme rf;
+    private RepositorioFilme rf = new RepositorioFilme();
 
     public String validar(Filme filme){
         if(rf.consultar(filme.getTitulo()) == null){

@@ -82,6 +82,48 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return filmes;
     }*/
 
+    public String consultarSerie(String titulo){
+        SQLiteDatabase db = this.getReadableDatabase();
+        String query = "SELECT titulo FROM series WHERE titulo = ?";
+        Cursor cursor = db.rawQuery(query, new String[]{String.valueOf(titulo)});
+
+        if (cursor.moveToFirst()) {
+            String titulo1 = cursor.getString(0);
+            cursor.close();
+            return titulo1;
+        }
+        cursor.close();
+        return null;
+    }
+
+    public String consultarSenhaUsuario(String senha){
+        SQLiteDatabase db = this.getReadableDatabase();
+        String query = "SELECT senha FROM usuarios WHERE senha = ?";
+        Cursor cursor = db.rawQuery(query, new String[]{String.valueOf(senha)});
+
+        if (cursor.moveToFirst()) {
+            String senha1 = cursor.getString(0);
+            cursor.close();
+            return senha1;
+        }
+        cursor.close();
+        return null;
+    }
+
+    public String consultarEmailUsuario(String email){
+        SQLiteDatabase db = this.getReadableDatabase();
+        String query = "SELECT email FROM usuarios WHERE email = ?";
+        Cursor cursor = db.rawQuery(query, new String[]{String.valueOf(email)});
+
+        if (cursor.moveToFirst()) {
+            String email1 = cursor.getString(0);
+            cursor.close();
+            return email1;
+        }
+        cursor.close();
+        return null;
+    }
+
     public String consultarFilme(long id) {
         SQLiteDatabase db = this.getReadableDatabase();
         String query = "SELECT titulo FROM filmes WHERE id = ?";
@@ -109,7 +151,5 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         cursor.close();
         return null;
     }
-
-
 
 }

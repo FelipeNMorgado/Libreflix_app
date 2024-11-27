@@ -3,7 +3,6 @@ package br.com.Libreflix.entidade;
 public class Serie extends Episodio{
     private long id;
     private String tags;
-    private String episodios;
     private String tituloSerie;
     private String descricaoSerie;
     private int ano;
@@ -13,7 +12,7 @@ public class Serie extends Episodio{
     private int qntdTemporadas;
     private int qntdEpisodiosTotais;
 
-    public Serie(long id, String tags, String episodios, String tituloSerie, String descricaoSerie, int ano, int classificacaoIndicativa, String diretor, String elenco, int qntdTemporadas, int qntdEpisodiosTotais, String tituloEpisodio, String descicaoEpisodio, long duracaoEpisodio) {
+    public Serie(long id, String tags, String tituloSerie, String descricaoSerie, int ano, int classificacaoIndicativa, String diretor, String elenco, int qntdTemporadas, int qntdEpisodiosTotais, String tituloEpisodio, String descicaoEpisodio, long duracaoEpisodio) {
         super(tituloEpisodio, descicaoEpisodio, duracaoEpisodio);
         this.id = id;
         this.tags = tags;

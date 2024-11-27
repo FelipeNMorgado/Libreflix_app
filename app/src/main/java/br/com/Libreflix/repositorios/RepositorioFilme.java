@@ -1,7 +1,6 @@
 package br.com.Libreflix.repositorios;
 
 import com.example.libreflixapp.DatabaseHelper;
-
 import br.com.Libreflix.entidade.Filme;
 
 public class RepositorioFilme {

@@ -8,7 +8,7 @@ public class Filme extends Episodio {
     private String diretor;
     private String elenco;
 
-    public Filme(long id, String titulo, String descricao, long duracao, long tempoVisto, String tags, int ano, int classificacaoIndicativa, String diretor, String elenco) {
+    public Filme(long id, String titulo, String descricao, long duracao, String tags, int ano, int classificacaoIndicativa, String diretor, String elenco) {
         super(titulo, descricao, duracao);
         this.id = id;
         this.tags = tags;
