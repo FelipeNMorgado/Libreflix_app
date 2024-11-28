@@ -1,26 +1,26 @@
 package br.com.Libreflix.repositorios;
 
-import com.example.libreflixapp.DatabaseHelper;
+import android.content.Context;
 import br.com.Libreflix.entidade.Filme;
+import com.example.libreflixapp.DatabaseHelper;
 
 public class RepositorioFilme {
 
-    private Filme filme;
-    private DatabaseHelper dBH;
+    private final DatabaseHelper dBH;
 
-    public void incluir(Filme filme){
+    public RepositorioFilme(Context context) {
+        this.dBH = new DatabaseHelper(context);
+    }
 
+    public void incluir(Filme filme) {
         dBH.adicionarFilme(filme);
     }
 
-    public String consultar(long id){
-
-        return dBH.consultarFilme(id);
+    public String consultar(int id) {
+        return dBH.consultarFilmePorId(id);
     }
 
-    public String consultar(String titulo){
-
+    public String consultar(String titulo) {
         return dBH.consultarFilme(titulo);
     }
-
 }

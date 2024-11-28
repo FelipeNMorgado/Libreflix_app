@@ -1,28 +1,31 @@
 package br.com.Libreflix.mediators;
 
+import android.content.Context;
 import br.com.Libreflix.entidade.Filme;
 import br.com.Libreflix.repositorios.RepositorioFilme;
 
 public class MediatorFilme {
 
-    private Filme filme;
-    private RepositorioFilme rf = new RepositorioFilme();
+    private final RepositorioFilme rf;
 
-    public String validar(Filme filme){
-        if(rf.consultar(filme.getTitulo()) == null){
-            return "Filme não encontrado!";
-        }else{
-            return null;
-        }
+    public MediatorFilme(Context context) {
+        this.rf = new RepositorioFilme(context);
     }
 
-    public String incluir(Filme filme){
-        if(validar(filme) == null){
+    public String validar(Filme filme) {
+        if (rf.consultar(filme.getId()) != null) {
             return "Filme já existe!";
-        }else{
-            rf.incluir(filme);
-            return null;
         }
+        return null;
     }
 
+    public String incluir(Filme filme) {
+        // Validar duplicidade pelo ID
+        String validacao = validar(filme);
+        if (validacao != null) {
+            return validacao; // Retorna "Filme já existe!" se duplicado
+        }
+        rf.incluir(filme); // Adiciona o filme ao repositório
+        return null; // Retorno null indica sucesso
+    }
 }

@@ -2,7 +2,7 @@ package br.com.Libreflix.repositorios;
 
 import br.com.Libreflix.entidade.Usuario;
 import com.example.libreflixapp.DatabaseHelper;
-
+/*
 public class RepositorioUsuario {
 
     private Usuario usuario;
@@ -23,4 +23,4 @@ public class RepositorioUsuario {
         //dBH.adicionarUsuario();
     }
 
-}
+}*/

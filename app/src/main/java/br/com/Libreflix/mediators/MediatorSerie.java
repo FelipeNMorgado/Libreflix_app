@@ -1,5 +1,5 @@
 package br.com.Libreflix.mediators;
-
+/*
 import br.com.Libreflix.entidade.Serie;
 import br.com.Libreflix.repositorios.RepositorioSerie;
 
@@ -24,4 +24,4 @@ public class MediatorSerie {
             return null;
         }
     }
-}
+}*/

@@ -2,7 +2,7 @@ package br.com.Libreflix.repositorios;
 
 import com.example.libreflixapp.DatabaseHelper;
 import br.com.Libreflix.entidade.Serie;
-
+/*
 public class RepositorioSerie {
 
     private Serie serie;
@@ -15,7 +15,8 @@ public class RepositorioSerie {
 
     public String consultar(String titulo){
 
-        return dBH.consultarSerie(titulo);
+        //return dBH.consultarSerie(titulo);
+        return null;
     }
 
-}
+}*/

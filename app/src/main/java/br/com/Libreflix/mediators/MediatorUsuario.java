@@ -1,5 +1,5 @@
 package br.com.Libreflix.mediators;
-
+/*
 import br.com.Libreflix.repositorios.RepositorioUsuario;
 import br.com.Libreflix.entidade.Usuario;
 
@@ -45,4 +45,4 @@ public class MediatorUsuario {
             return null;
         }
     }
-}
+}*/

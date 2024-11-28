@@ -12,8 +12,14 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.List;
 
+import br.com.Libreflix.entidade.Filme;
+import br.com.Libreflix.mediators.MediatorFilme;
+import br.com.Libreflix.repositorios.RepositorioFilme;
+
 public class DatabaseHelperActivity extends AppCompatActivity {
 
+    private MediatorFilme mf = new MediatorFilme(this);
+    private RepositorioFilme rf = new RepositorioFilme(this);
     private DatabaseHelper databaseHelper;
     private EditText editTextTitulo;
     private EditText editTextDescricao;
@@ -38,9 +44,25 @@ public class DatabaseHelperActivity extends AppCompatActivity {
                 String titulo = editTextTitulo.getText().toString();
                 String descricao = editTextDescricao.getText().toString();
 
+                String episodeName = "qiuwdi";
+                String videoUri = "android.resource://" + getPackageName() + "/raw/" + episodeName;
+                Filme meuFilme = new Filme(
+                        11,
+                        videoUri,
+                        episodeName,
+                        "Uma descrição interessante.",
+                        120L,
+                        "Ação, Aventura",
+                        1990,
+                        12,
+                        "Nome do Diretor",
+                        "Ator A, Atriz B, Ator C"
+                );
+
+
                 if (!titulo.isEmpty() && !descricao.isEmpty()) {
-                   // databaseHelper.adicionarFilme(titulo, descricao);
-                   // atualizarListaFilmes();
+                    mf.incluir(meuFilme);
+                    //atualizarListaFilmes();
                     editTextTitulo.setText("");
                     editTextDescricao.setText("");
                 }
