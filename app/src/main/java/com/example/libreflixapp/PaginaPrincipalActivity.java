@@ -85,7 +85,10 @@ public class PaginaPrincipalActivity extends AppCompatActivity {
                 3600L // duracaoEpisodio em segundos
         );
 
-        ms.incluir(minhaSerie);
+        dBH.favoritar(meuUsuario, minhaSerie);
+        dBH.assistir(meuUsuario, minhaSerie);
+
+        //ms.incluir(minhaSerie);
         //mu.incluir(meuUsuario);
         //mf.incluir(meuFilme);
     }

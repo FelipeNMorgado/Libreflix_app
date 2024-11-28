@@ -14,7 +14,7 @@ import br.com.Libreflix.entidade.Usuario;
 public class DatabaseHelper extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "libreflix2.db";
-    private static final int DATABASE_VERSION = 5;
+    private static final int DATABASE_VERSION = 7;
 
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -62,6 +62,22 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 ");";
         db.execSQL(CREATE_TABLE_SERIE);
 
+        String CREATE_TABLE_FAVORITO = "CREATE TABLE Favorito (" +
+                "emailUsuario TEXT NOT NULL, " +
+                "userName TEXT NOT NULL, " +
+                "idSerieFilme TEXT NOT NULL, " +
+                "nomeSerieFilme TEXT NOT NULL " +
+                ");";
+        db.execSQL(CREATE_TABLE_FAVORITO);
+
+        String CREATE_TABLE_ASSISTIR = "CREATE TABLE Assistir (" +
+                "emailUsuario TEXT NOT NULL, " +
+                "userName TEXT NOT NULL, " +
+                "idSerieFilme TEXT NOT NULL, " +
+                "nomeSerieFilme TEXT NOT NULL " +
+                ");";
+        db.execSQL(CREATE_TABLE_ASSISTIR);
+
         /*String CREATE_TABLE_SERIEEP = "CREATE TABLE SerieEp (" +
                 "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 "idSerie INTEGER NOT NULL, " +
@@ -80,6 +96,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS episodio");
         db.execSQL("DROP TABLE IF EXISTS Usuario");
         db.execSQL("DROP TABLE IF EXISTS Serie");
+        db.execSQL("DROP TABLE IF EXISTS Favorito");
+        db.execSQL("DROP TABLE IF EXISTS Assistir");
         onCreate(db);
     }
 
@@ -97,6 +115,58 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.insert("filmes", null, values);
         db.close();
     }*/
+
+    public void assistir(Usuario usuario, Filme filme){
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues assistirValues = new ContentValues();
+        assistirValues.put("emailUsuario", usuario.getEmail());
+        assistirValues.put("userName", usuario.getUserName());
+        assistirValues.put("idSerieFilme", filme.getId());
+        assistirValues.put("nomeSerieFilme", filme.getTitulo());
+
+        db.insert("Assistir", null, assistirValues);
+        db.close();
+    }
+
+    public void assistir(Usuario usuario, Serie serie){
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues assistirValues = new ContentValues();
+        assistirValues.put("emailUsuario", usuario.getEmail());
+        assistirValues.put("userName", usuario.getUserName());
+        assistirValues.put("idSerieFilme", serie.getId());
+        assistirValues.put("nomeSerieFilme", serie.getTituloSerie());
+
+        db.insert("Assistir", null, assistirValues);
+        db.close();
+    }
+
+    public void favoritar(Usuario usuario, Filme filme){
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues favoritarValues = new ContentValues();
+        favoritarValues.put("emailUsuario", usuario.getEmail());
+        favoritarValues.put("userName", usuario.getUserName());
+        favoritarValues.put("idSerieFilme", filme.getId());
+        favoritarValues.put("nomeSerieFilme", filme.getTitulo());
+
+        db.insert("Favorito", null, favoritarValues);
+        db.close();
+    }
+
+    public void favoritar(Usuario usuario, Serie serie){
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues favoritarValues = new ContentValues();
+        favoritarValues.put("emailUsuario", usuario.getEmail());
+        favoritarValues.put("userName", usuario.getUserName());
+        favoritarValues.put("idSerieFilme", serie.getId());
+        favoritarValues.put("nomeSerieFilme", serie.getTituloSerie());
+
+        db.insert("Favorito", null, favoritarValues);
+        db.close();
+    }
 
     public void adicionarFilme(Filme filme) {
         SQLiteDatabase db = this.getWritableDatabase();
