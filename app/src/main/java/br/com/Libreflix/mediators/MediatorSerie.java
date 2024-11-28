@@ -9,7 +9,7 @@ public class MediatorSerie {
     private RepositorioSerie rs = new RepositorioSerie();
 
     public String validar(Serie serie){
-        if(rs.consultar(serie.getTituloSerie()) == null){
+        if(rs.consultar(serie.getTitulo()) == null){
             return "Serie não encontrada";
         }else{
             return null;

@@ -90,6 +90,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void adicionarFilme( Filme filme) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
+        adicionarEpisodio(filme,"filmes");
 
         values.put("id", filme.getId());
         values.put("tags", filme.getTags());
@@ -105,7 +106,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void adicionarEpisodio(Episodio episodio, String tipo) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
-        String videoUri = "android.resource://" + context.getPackageName() + "/raw/" + episodio.getTitulo();
+        String videoUri = "android.resource://" + context.getPackageName() + "/raw/" + episodio.getUriVidio();
         values.put("titulo", episodio.getTitulo());
         values.put("descricao", episodio.getDescricao());
         values.put("duracao", episodio.getDuracao());
@@ -118,6 +119,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void adicionarSerie( Serie serie) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
+        adicionarEpisodio(serie,"Serie");
         values.put("id", serie.getId());
         values.put("tags", serie.getTags());
         values.put("ano", serie.getAno());
