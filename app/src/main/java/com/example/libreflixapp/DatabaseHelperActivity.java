@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.List;
 
+import br.com.Libreflix.entidade.Serie;
 import br.com.Libreflix.entidade.Filme;
 import br.com.Libreflix.entidade.Usuario;
 import br.com.Libreflix.mediators.MediatorFilme;
@@ -71,9 +72,10 @@ public class DatabaseHelperActivity extends AppCompatActivity {
 
 
                 if (!titulo.isEmpty() && !descricao.isEmpty()) {
-                    mf.incluir(meuFilme);
-                    mu.incluir(meuUsuario);
+                    //.incluir(meuFilme);
+                    //mu.incluir(meuUsuario);
                     //atualizarListaFilmes();
+
                     editTextTitulo.setText("");
                     editTextDescricao.setText("");
                 }

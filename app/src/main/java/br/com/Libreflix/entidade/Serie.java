@@ -8,6 +8,8 @@ public class Serie extends Episodio{
     private String elenco;
     private int qntdTemporadas;
     private int qntdEpisodiosTotais;
+    private String tituloSerie;
+    private String descricaoSerie;
 
     public Serie(int id, String uriVidio, String tags, String tituloSerie, String descricaoSerie, int ano, int classificacaoIndicativa, String diretor, String elenco, int qntdTemporadas, int qntdEpisodiosTotais, String tituloEpisodio, String descicaoEpisodio, long duracaoEpisodio) {
         super(id, uriVidio, tituloEpisodio, descicaoEpisodio, duracaoEpisodio);
@@ -18,8 +20,17 @@ public class Serie extends Episodio{
         this.elenco = elenco;
         this.qntdTemporadas = qntdTemporadas;
         this.qntdEpisodiosTotais = qntdEpisodiosTotais;
+        this.tituloSerie = tituloSerie;
+        this.descricaoSerie = descricaoSerie;
     }
 
+    public String getTituloSerie(){ return tituloSerie;}
+
+    public void setTituloSerie(String tituloSerie){ this.tituloSerie = tituloSerie;}
+
+    public String getDescricaoSerie(){ return descricaoSerie;}
+
+    public void setDescricaoSerie(String descricaoSerie){ this.descricaoSerie = descricaoSerie;}
 
     public String getTags() {
         return tags;

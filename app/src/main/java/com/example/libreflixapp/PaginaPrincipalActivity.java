@@ -17,10 +17,13 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import br.com.Libreflix.entidade.Episodio;
+import br.com.Libreflix.entidade.Serie;
 import br.com.Libreflix.entidade.Filme;
 import br.com.Libreflix.entidade.Usuario;
 import br.com.Libreflix.mediators.MediatorFilme;
+import br.com.Libreflix.mediators.MediatorSerie;
 import br.com.Libreflix.mediators.MediatorUsuario;
+import br.com.Libreflix.repositorios.RepositorioSerie;
 import br.com.Libreflix.repositorios.RepositorioUsuario;
 
 public class PaginaPrincipalActivity extends AppCompatActivity {
@@ -28,10 +31,13 @@ public class PaginaPrincipalActivity extends AppCompatActivity {
     private VideoView videoView;
     private int currentPosition = 0;
     private int currentEpisodeIndex = 0;
+    private Serie minhaSerie;
     private MediatorFilme mf = new MediatorFilme(this);
     private RepositorioUsuario ru = new RepositorioUsuario(this);
     private MediatorUsuario mu = new MediatorUsuario(this);
     private DatabaseHelper dBH = new DatabaseHelper(this);
+    private RepositorioSerie rs = new RepositorioSerie(this);
+    private MediatorSerie ms = new MediatorSerie(this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,7 +67,26 @@ public class PaginaPrincipalActivity extends AppCompatActivity {
                 "1234192001934013"
 
         );
-        mu.incluir(meuUsuario);
-        mf.incluir(meuFilme);
+        // Criando uma instância da classe Serie
+        Serie minhaSerie = new Serie(
+                70, // id
+                "https://exemplo.com/video.mp4", // uriVidio
+                "Ação, Aventura", // tags
+                "Uma Série Fantástica", // tituloSerie
+                "A história de um grupo de amigos enfrentando desafios incríveis.", // descricaoSerie
+                2024, // ano
+                16, // classificacaoIndicativa
+                "João Diretor", // diretor
+                "Ana Ator, Pedro Ator, João Ator", // elenco
+                3, // qntdTemporadas
+                30, // qntdEpisodiosTotais
+                "P", // tituloEpisodio
+                "Introdução aos personagens e ao universo.", // descicaoEpisodio
+                3600L // duracaoEpisodio em segundos
+        );
+
+        ms.incluir(minhaSerie);
+        //mu.incluir(meuUsuario);
+        //mf.incluir(meuFilme);
     }
 }

@@ -8,12 +8,13 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import br.com.Libreflix.entidade.Filme;
 import br.com.Libreflix.entidade.Episodio;
+import br.com.Libreflix.entidade.Serie;
 import br.com.Libreflix.entidade.Usuario;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "libreflix2.db";
-    private static final int DATABASE_VERSION = 2;
+    private static final int DATABASE_VERSION = 5;
 
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -47,6 +48,30 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 "senha TEXT NOT NULL" +
                 ");";
         db.execSQL(CREATE_TABLE_USUARIO);
+
+        String CREATE_TABLE_SERIE = "CREATE TABLE Serie (" +
+                "id INTEGER PRIMARY KEY, " +
+                "tituloSerie TEXT NOT NULL, " +
+                "descricaoSerie TEXT NOT NULL, " +
+                "tags TEXT NOT NULL, " +
+                "ano INTEGER NOT NULL, " +
+                "classificacaoIndicativa INTEGER NOT NULL, " +
+                "elenco TEXT NOT NULL, " +
+                "diretor TEXT NOT NULL, " +
+                "qntdTemporadas INTEGER NOT NULL" +
+                ");";
+        db.execSQL(CREATE_TABLE_SERIE);
+
+        /*String CREATE_TABLE_SERIEEP = "CREATE TABLE SerieEp (" +
+                "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                "idSerie INTEGER NOT NULL, " +
+                "ano INTEGER NOT NULL, " +
+                "classifcacaoIndicativa INTEGER NOT NULL, " +
+                "elenco TEXT NOT NULL, " +
+                "direitor TEXT NOT NULL, " +
+                "qntdTemporadas INTEGER NOT NULL" +
+                ");";
+        db.execSQL(CREATE_TABLE_SERIEEP);*/
     }
 
     @Override
@@ -54,6 +79,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS filmes");
         db.execSQL("DROP TABLE IF EXISTS episodio");
         db.execSQL("DROP TABLE IF EXISTS Usuario");
+        db.execSQL("DROP TABLE IF EXISTS Serie");
         onCreate(db);
     }
 
@@ -113,6 +139,37 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.close();
     }
 
+    public void adicionarSerie(Serie serie){
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        // Inserindo o filme na tabela "filmes"
+        ContentValues serieValues = new ContentValues();
+        serieValues.put("id", serie.getId());
+        serieValues.put("tituloSerie", serie.getTituloSerie());
+        serieValues.put("descricaoSerie", serie.getDescricaoSerie());
+        serieValues.put("tags", serie.getTags());
+        serieValues.put("ano", serie.getAno());
+        serieValues.put("classificacaoIndicativa", serie.getClassificacaoIndicativa());
+        serieValues.put("elenco", serie.getElenco());
+        serieValues.put("diretor", serie.getDiretor());
+        serieValues.put("qntdTemporadas", serie.getQntdTemporadas());
+
+        db.insert("Serie", null, serieValues);
+
+        // Inserindo o episódio correspondente na tabela "episodio"
+        ContentValues episodioValues = new ContentValues();
+        episodioValues.put("id", serie.getId());
+        episodioValues.put("videoUri", serie.getUriVideo()); // Usando URI do vídeo do filme
+        episodioValues.put("titulo", serie.getTitulo()); // Título do filme como título do episódio
+        episodioValues.put("descricao", serie.getDescricao()); // Descrição do filme
+        episodioValues.put("duracao", serie.getDuracao()); // Duração do filme
+        episodioValues.put("tipo", "Serie"); // Tipo fixo como "Filme" (ou outro, conforme necessidade)
+
+        db.insert("episodio", null, episodioValues);
+
+        db.close();
+    }
+
     public String consultarEmailUsuario(Usuario usuario) {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery("SELECT email FROM Usuario WHERE email = ?", new String[]{usuario.getEmail()});
@@ -148,6 +205,18 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
         cursor.close();
         return null; // Caso contrário, retornamos null
+    }
+
+    public String consultarSerie(String titulo) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT titulo FROM episodio WHERE titulo = ?", new String[]{titulo});
+        if (cursor.moveToFirst()) {
+            String resultado = cursor.getString(0);
+            cursor.close();
+            return resultado;
+        }
+        cursor.close();
+        return null;
     }
 
     public String consultarFilme(String titulo) {
