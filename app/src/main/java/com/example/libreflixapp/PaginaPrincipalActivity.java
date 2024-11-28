@@ -17,12 +17,21 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import br.com.Libreflix.entidade.Episodio;
+import br.com.Libreflix.entidade.Filme;
+import br.com.Libreflix.entidade.Usuario;
+import br.com.Libreflix.mediators.MediatorFilme;
+import br.com.Libreflix.mediators.MediatorUsuario;
+import br.com.Libreflix.repositorios.RepositorioUsuario;
 
 public class PaginaPrincipalActivity extends AppCompatActivity {
 
     private VideoView videoView;
     private int currentPosition = 0;
     private int currentEpisodeIndex = 0;
+    private MediatorFilme mf = new MediatorFilme(this);
+    private RepositorioUsuario ru = new RepositorioUsuario(this);
+    private MediatorUsuario mu = new MediatorUsuario(this);
+    private DatabaseHelper dBH = new DatabaseHelper(this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,99 +40,28 @@ public class PaginaPrincipalActivity extends AppCompatActivity {
         setContentView(R.layout.activity_pagina_principal2);
 
 
-        videoView = findViewById(R.id.videoView);
-
-        MediaController mediaController = new MediaController(this);
-        mediaController.setAnchorView(videoView);
-        videoView.setMediaController(mediaController);
-
-        String episodeName = "video1";
-
+        String episodeName = "qiuwdi";
         String videoUri = "android.resource://" + getPackageName() + "/raw/" + episodeName;
+        Filme meuFilme = new Filme(
+                191,
+                videoUri,
+                episodeName,
+                "Uma descrição interessante.",
+                120L,
+                "Ação, Aventura",
+                1990,
+                12,
+                "Nome do Diretor",
+                "Ator A, Atriz B, Ator C"
+        );
+        Usuario meuUsuario = new Usuario(
+                "Pluto",
+                "Pe@gmail.com",
+                "pepe",
+                "1234192001934013"
 
-        /*Episodio[] episodios = new Episodio[]{
-                new Episodio("android.resource://" + getPackageName() + "/raw/" + episodeName),
-                new Episodio("android.resource://" + getPackageName() + "/" + R.raw.video2)
-        };*/
-
-
-        DatabaseHelper databaseHelper = new DatabaseHelper(this);
-
-        //String titulo = databaseHelper.getTituloById(3);
-
-
-
-        /*if (titulo != null) {
-            String videoPath = titulo;
-
-            VideoView videoView = findViewById(R.id.videoView);
-            videoView.setVideoURI(Uri.parse(videoPath));
-            videoView.requestFocus();
-            videoView.start();
-        } else {
-            Toast.makeText(this, "Título não encontrado!", Toast.LENGTH_SHORT).show();
-        }*/
-
-
-        /*Button btnPrevious = findViewById(R.id.btnPrevious);
-        Button btnNext = findViewById(R.id.btnNext);
-
-        // Listener para o botão "Anterior"
-        btnPrevious.setOnClickListener(v -> {
-            if (currentEpisodeIndex > 0) {
-                currentEpisodeIndex--;
-                setupVideo(currentEpisodeIndex);
-            }
-        });
-
-        // Listener para o botão "Próximo"
-        btnNext.setOnClickListener(v -> {
-            if (currentEpisodeIndex < temporada1.getEpisodios().length - 1) {
-                currentEpisodeIndex++;
-                setupVideo(currentEpisodeIndex);
-            }
-        });
-
-        setupVideo(currentEpisodeIndex);
-
-
-        if (savedInstanceState != null) {
-            currentPosition = savedInstanceState.getInt("currentPosition", 0);
-            currentEpisodeIndex = savedInstanceState.getInt("currentEpisodeIndex", 0);
-            setupVideo(currentEpisodeIndex);
-            videoView.seekTo(currentPosition);
-        }
-    }
-
-    private void setupVideo(int episodeIndex) {
-        String videoPath = temporada1.getEpisodios()[episodeIndex].getTitulo();
-        videoView.setVideoURI(Uri.parse(videoPath));
-        videoView.requestFocus();
-        videoView.start();
-    }
-
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        // Salvar a posição atual do vídeo
-        outState.putInt("currentPosition", videoView.getCurrentPosition());
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        // Salvar a posição quando a atividade for pausada
-        currentPosition = videoView.getCurrentPosition();
-        videoView.pause();
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        // Restaurar a posição apenas se necessário
-        if (currentPosition > 0) {
-            videoView.seekTo(currentPosition);
-            videoView.start();
-        }*/
+        );
+        mu.incluir(meuUsuario);
+        mf.incluir(meuFilme);
     }
 }

@@ -1,35 +1,47 @@
 package br.com.Libreflix.mediators;
-/*
+
+import android.content.Context;
 import br.com.Libreflix.repositorios.RepositorioUsuario;
 import br.com.Libreflix.entidade.Usuario;
 
 public class MediatorUsuario {
 
     private Usuario usuario;
-    private RepositorioUsuario ru = new RepositorioUsuario();
+    private RepositorioUsuario ru;
 
-    public String validarCadastro(Usuario usuario){
+    public MediatorUsuario(Context context) {
+        this.ru = new RepositorioUsuario(context);
+    }
 
-        if(usuario.getNome() == null && usuario.getNome().trim().isEmpty()){
-            return "Por favor informe um nome";
-        }if(ru.consultarEmail(usuario.getEmail()) != null){
+    public String validarCadastro(Usuario usuario) {
+
+        if (usuario.getNome() == null || usuario.getNome().trim().isEmpty()) {
+            return "Por favor, informe um nome";
+        }
+
+        if (ru.consultarEmail(usuario) != null) {
             return "Esse email já existe";
-        }if(usuario.getUserName() == null && usuario.getUserName().trim().isEmpty()){
-            return "Por favor informe seu username";
-        }if(usuario.getUserName().length() > 25){
+        }
+
+        if (usuario.getUserName() == null || usuario.getUserName().trim().isEmpty()) {
+            return "Por favor, informe seu username";
+        }
+
+        if (usuario.getUserName().length() > 25) {
             return "Username extenso demais";
-        }if(usuario.getSenha().length() < 8){
-            return "Pelo menos 8 caracteres";
         }
-        else{
-            return null;
+
+        if (usuario.getSenha() == null || usuario.getSenha().length() < 8) {
+            return "A senha deve ter pelo menos 8 caracteres";
         }
+
+        return null;  // Se todas as validações passarem
     }
 
     public String validarLogIn(Usuario usuario){
-        if(ru.consultarEmail(usuario.getEmail()) == null){
+        if(ru.consultarEmail(usuario) == null){
             return "Email inválido";
-        }if(ru.consultarSenha(usuario.getSenha()) == null){
+        }if(ru.consultarSenha(usuario) == null){
             return "Senha inválida";
         }
         else{
@@ -45,4 +57,4 @@ public class MediatorUsuario {
             return null;
         }
     }
-}*/
+}

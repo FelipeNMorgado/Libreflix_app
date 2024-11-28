@@ -3,27 +3,27 @@ package br.com.Libreflix.entidade;
 public class Episodio {
     private int id;
     private String titulo;
-    private String uriVidio;
+    private String uriVideo;
     private String descricao;
     private long duracao;
 
-    Episodio (int id, String uriVidio, String titulo, String descricao, long duracao){
+    Episodio (int id, String uriVideo, String titulo, String descricao, long duracao){
         this.id = id;
-        this.uriVidio = uriVidio;
+        this.uriVideo = uriVideo;
         this.titulo = titulo;
         this.descricao = descricao;
         this.duracao = duracao;
     }
-    public Episodio(String uriVidio){
-        this.uriVidio = uriVidio;
+    public Episodio(String uriVideo){
+        this.uriVideo = uriVideo;
     }
 
-    public String getUriVidio(){
-        return uriVidio;
+    public String getUriVideo(){
+        return uriVideo;
     }
 
-    public void setUriVidio(String uriVidio){
-        this.uriVidio = uriVidio;
+    public void setUriVideo(String uriVideo){
+        this.uriVideo = uriVideo;
     }
 
     public int getId(){

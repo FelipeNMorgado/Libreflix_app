@@ -13,13 +13,16 @@ import androidx.appcompat.app.AppCompatActivity;
 import java.util.List;
 
 import br.com.Libreflix.entidade.Filme;
+import br.com.Libreflix.entidade.Usuario;
 import br.com.Libreflix.mediators.MediatorFilme;
+import br.com.Libreflix.mediators.MediatorUsuario;
 import br.com.Libreflix.repositorios.RepositorioFilme;
 
 public class DatabaseHelperActivity extends AppCompatActivity {
 
     private MediatorFilme mf = new MediatorFilme(this);
     private RepositorioFilme rf = new RepositorioFilme(this);
+    private MediatorUsuario mu = new MediatorUsuario(this);
     private DatabaseHelper databaseHelper;
     private EditText editTextTitulo;
     private EditText editTextDescricao;
@@ -58,10 +61,18 @@ public class DatabaseHelperActivity extends AppCompatActivity {
                         "Nome do Diretor",
                         "Ator A, Atriz B, Ator C"
                 );
+                Usuario meuUsuario = new Usuario(
+                        "Pietro",
+                        "p@gmail.com",
+                        "pepe",
+                        "123"
+
+                );
 
 
                 if (!titulo.isEmpty() && !descricao.isEmpty()) {
                     mf.incluir(meuFilme);
+                    mu.incluir(meuUsuario);
                     //atualizarListaFilmes();
                     editTextTitulo.setText("");
                     editTextDescricao.setText("");

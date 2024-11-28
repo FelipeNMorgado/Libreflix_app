@@ -8,11 +8,12 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import br.com.Libreflix.entidade.Filme;
 import br.com.Libreflix.entidade.Episodio;
+import br.com.Libreflix.entidade.Usuario;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "libreflix2.db";
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 2;
 
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -30,8 +31,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 ");";
         db.execSQL(CREATE_TABLE_FILMES);
 
-        String CREATE_TABLE_EPISODIO = "CREATE TABLE IF NOT EXISTS episodio (" +
-                "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+        String CREATE_TABLE_EPISODIO = "CREATE TABLE episodio (" +
+                "id INTEGER PRIMARY KEY, " +
                 "videoUri TEXT, " +
                 "titulo TEXT NOT NULL, " +
                 "descricao TEXT, " +
@@ -40,7 +41,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 ");";
         db.execSQL(CREATE_TABLE_EPISODIO);
 
-        String CREATE_TABLE_USUARIO = "CREATE TABLE IF NOT EXISTS Usuario (" +
+        String CREATE_TABLE_USUARIO = "CREATE TABLE Usuario (" +
                 "email TEXT PRIMARY KEY, " +
                 "userName TEXT NOT NULL, " +
                 "senha TEXT NOT NULL" +
@@ -56,7 +57,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    public void adicionarFilme(Filme filme) {
+    /*public void adicionarFilme(Filme filme) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
 
@@ -69,6 +70,73 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         db.insert("filmes", null, values);
         db.close();
+    }*/
+
+    public void adicionarFilme(Filme filme) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        // Inserindo o filme na tabela "filmes"
+        ContentValues filmeValues = new ContentValues();
+        filmeValues.put("id", filme.getId());
+        filmeValues.put("tags", filme.getTags());
+        filmeValues.put("ano", filme.getAno());
+        filmeValues.put("classificacaoIndicativa", filme.getClassificacaoIndicativa());
+        filmeValues.put("diretor", filme.getDiretor());
+        filmeValues.put("elenco", filme.getElenco());
+
+        db.insert("filmes", null, filmeValues);
+
+        // Inserindo o episódio correspondente na tabela "episodio"
+        ContentValues episodioValues = new ContentValues();
+        episodioValues.put("id", filme.getId());
+        episodioValues.put("videoUri", filme.getUriVideo()); // Usando URI do vídeo do filme
+        episodioValues.put("titulo", filme.getTitulo()); // Título do filme como título do episódio
+        episodioValues.put("descricao", filme.getDescricao()); // Descrição do filme
+        episodioValues.put("duracao", filme.getDuracao()); // Duração do filme
+        episodioValues.put("tipo", "Filme"); // Tipo fixo como "Filme" (ou outro, conforme necessidade)
+
+        db.insert("episodio", null, episodioValues);
+
+        db.close();
+    }
+
+    public void adicionarUsuario(Usuario usuario){
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues usuarioValues = new ContentValues();
+        usuarioValues.put("email", usuario.getEmail());
+        usuarioValues.put("userName", usuario.getUserName());
+        usuarioValues.put("senha", usuario.getSenha());
+
+        db.insert("usuario", null,usuarioValues);
+
+        db.close();
+    }
+
+    public String consultarEmailUsuario(Usuario usuario) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT email FROM Usuario WHERE email = ?", new String[]{usuario.getEmail()});
+        if (cursor.moveToFirst()) {
+            String emailEncontrado = cursor.getString(cursor.getColumnIndexOrThrow("email"));
+            cursor.close();
+            return emailEncontrado;  // Email encontrado
+        }
+        cursor.close();
+        return null;  // Email não encontrado
+    }
+
+    public String consultarSenhaUsuario(Usuario usuario) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT senha FROM Usuario WHERE email = ?", new String[]{usuario.getEmail()});
+        if (cursor.moveToFirst()) {
+            String senhaEncontrada = cursor.getString(cursor.getColumnIndexOrThrow("senha"));
+            cursor.close();
+            if (senhaEncontrada.equals(usuario.getSenha())) {
+                return senhaEncontrada;  // Senha correta
+            }
+        }
+        cursor.close();
+        return null;  // Senha incorreta
     }
 
     public String consultarFilmePorId(int id) {

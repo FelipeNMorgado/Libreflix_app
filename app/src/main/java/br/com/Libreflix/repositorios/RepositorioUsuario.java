@@ -1,26 +1,31 @@
 package br.com.Libreflix.repositorios;
 
+import android.content.Context;
+
 import br.com.Libreflix.entidade.Usuario;
 import com.example.libreflixapp.DatabaseHelper;
-/*
+
 public class RepositorioUsuario {
 
-    private Usuario usuario;
-    private DatabaseHelper dBH;
+    private final DatabaseHelper dBH;
 
-    public String consultarEmail(String email){
-
-        return dBH.consultarEmailUsuario(email);
+    public RepositorioUsuario(Context context) {
+        this.dBH = new DatabaseHelper(context);
     }
 
-    public String consultarSenha(String senha){
+    public String consultarEmail(Usuario usuario){
 
-        return dBH.consultarSenhaUsuario(senha);
+        return dBH.consultarEmailUsuario(usuario);
+    }
+
+    public String consultarSenha(Usuario usuario){
+
+        return dBH.consultarSenhaUsuario(usuario);
     }
 
     public void incluir(Usuario usuario){
 
-        //dBH.adicionarUsuario();
+        dBH.adicionarUsuario(usuario);
     }
 
-}*/
+}
