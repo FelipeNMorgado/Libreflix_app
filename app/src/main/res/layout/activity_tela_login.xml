@@ -40,6 +40,7 @@
             android:textColor="#A9A9A9" />
 
         <EditText
+            android:id="@+id/editTextTextEmailAddress"
             android:layout_width="match_parent"
             android:layout_height="20dp"
             android:layout_marginLeft="10dp"
@@ -56,6 +57,7 @@
             android:textColor="#A9A9A9" />
 
         <EditText
+            android:id="@+id/editTextTextSenha"
             android:layout_width="match_parent"
             android:layout_height="20dp"
             android:layout_marginLeft="10dp"
@@ -72,7 +74,7 @@
             android:textColor="#A9A9A9" />
 
         <Button
-            android:id="@+id/button2"
+            android:id="@+id/buttonEntrar"
             android:layout_width="75dp"
             android:layout_height="31dp"
             android:layout_marginLeft="10dp"
@@ -102,7 +104,7 @@
         app:layout_constraintVertical_bias="0.65" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/buttonCriarConta"
         android:layout_width="192dp"
         android:layout_height="41dp"
         android:backgroundTint="#D7821E"

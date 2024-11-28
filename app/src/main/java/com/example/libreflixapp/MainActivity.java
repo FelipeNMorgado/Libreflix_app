@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
 
         new Handler().postDelayed(() -> {
 
-            Intent intent = new Intent(MainActivity.this, PaginaPrincipalActivity.class);
+            Intent intent = new Intent(MainActivity.this, TelaLogin.class);
             startActivity(intent);
 
             finish();
