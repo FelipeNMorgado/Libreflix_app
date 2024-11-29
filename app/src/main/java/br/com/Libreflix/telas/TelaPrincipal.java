@@ -1,6 +1,8 @@
 package br.com.Libreflix.telas;
 
 import android.os.Bundle;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.MediaController;
 import android.widget.VideoView;
 import androidx.activity.EdgeToEdge;
@@ -14,6 +16,24 @@ import android.widget.Button;
 import com.example.libreflixapp.R;
 
 public class TelaPrincipal extends AppCompatActivity {
+
+    private final int[] imagens1 = {
+            R.drawable.logo_inicio,
+            R.drawable.logo_inicio,
+            R.drawable.logo_inicio
+    };
+
+    private final int[] imagens2 = {
+            R.drawable.logo_inicio,
+            R.drawable.logo_inicio,
+            R.drawable.logo_inicio
+    };
+
+    private final int[] imagens3 = {
+            R.drawable.logo_inicio,
+            R.drawable.logo_inicio,
+            R.drawable.logo_inicio
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,5 +71,51 @@ public class TelaPrincipal extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        LinearLayout linearLayout = findViewById(R.id.linearLayoutImagens1);
+
+        // Adicionar imagens dinamicamente
+        for (int imagem : imagens1) {
+            ImageView imageView = new ImageView(this);
+            imageView.setImageResource(imagem);
+
+            // Configurar o tamanho e margens
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(300, 300);
+            params.setMargins(35, 20, 35, 20); // Margem entre as imagens
+            imageView.setLayoutParams(params);
+
+            // Adicionar o ImageView ao LinearLayout
+            linearLayout.addView(imageView);
+        }
+
+        linearLayout = findViewById(R.id.linearLayoutImagens2);
+
+        for (int imagem : imagens2) {
+            ImageView imageView = new ImageView(this);
+            imageView.setImageResource(imagem);
+
+            // Configurar o tamanho e margens
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(300, 300);
+            params.setMargins(35, 20, 35, 20); // Margem entre as imagens
+            imageView.setLayoutParams(params);
+
+            // Adicionar o ImageView ao LinearLayout
+            linearLayout.addView(imageView);
+        }
+
+        linearLayout = findViewById(R.id.linearLayoutImagens3);
+
+        for (int imagem : imagens3) {
+            ImageView imageView = new ImageView(this);
+            imageView.setImageResource(imagem);
+
+            // Configurar o tamanho e margens
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(300, 300);
+            params.setMargins(35, 20, 35, 20); // Margem entre as imagens
+            imageView.setLayoutParams(params);
+
+            // Adicionar o ImageView ao LinearLayout
+            linearLayout.addView(imageView);
+        }
     }
 }
