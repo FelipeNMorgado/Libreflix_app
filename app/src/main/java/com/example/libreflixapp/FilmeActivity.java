@@ -1,114 +1,109 @@
 package com.example.libreflixapp;
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
-
-import java.util.ArrayList;
-import java.util.List;
+import android.database.sqlite.SQLiteDatabase;
 
 import br.com.Libreflix.entidade.Filme;
-import br.com.Libreflix.entidade.Tags;
 
 public class FilmeActivity extends AppCompatActivity {
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_filme);
+
         LinearLayout tagsLayout = findViewById(R.id.TagsLayout);
 
-        // Simulação: Tags associadas ao filme
-        List<Tags> tagsDoFilme = new ArrayList<>();
-        tagsDoFilme.add(Tags.ACAO);
-        tagsDoFilme.add(Tags.COMEDIA);
-        tagsDoFilme.add(Tags.DRAMA);
+        // Recebe o caminho da imagem da intent
+        String imagemRecebida = getIntent().getStringExtra("imagemRecebida");
 
-        // Criar botões para cada tag
-        for (Tags tag : tagsDoFilme) {
-            Button botaoTag = new Button(this);
-            botaoTag.setText(tag.getTag()); // Usar o nome da tag como texto
-            botaoTag.setBackgroundColor(ContextCompat.getColor(this,R.color.btn_detail));
-            botaoTag.setTextColor(Color.WHITE);
-            botaoTag.setPadding(0, 0, 0, 0);
+        // Inicializa o banco de dados
+        DatabaseHelper dbHelper = new DatabaseHelper(this);
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
 
-            // Configurações de layout do botão
-            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
-                    LinearLayout.LayoutParams.WRAP_CONTENT,
-                    LinearLayout.LayoutParams.WRAP_CONTENT
-            );
-            params.setMargins(8, 8, 8, 8); // Margens ao redor do botão
-            botaoTag.setLayoutParams(params);
+        // Busca o filme no banco de dados usando a imagem recebida
+        Filme filme = dbHelper.buscarFilmePorImagem(imagemRecebida);
 
-            // Adicionar o botão ao TagsLayout
-            tagsLayout.addView(botaoTag);
+        if (filme != null) {
+            // Atualiza a interface com os dados do filme
+            atualizarInterfaceComFilme(filme, tagsLayout);
+        } else {
+            // Exibe mensagem de erro se nenhum filme for encontrado
+            exibirMensagemDeErro();
         }
-         // Nome do seu layout XML
 
-        // Criando uma instância de Filme (simulando um filme que você recebeu de outra parte do código)
-        String imagem = "android.resource://" + getPackageName() + "/drawable/tela"; // Caminho da imagem no recurso
-        String videoUri = "android.resource://" + getPackageName() + "/raw/" + "episodeName";
+        // Fecha o banco de dados
+        db.close();
+    }
 
-        Filme meuFilme = new Filme(
-                150,
-                imagem,
-                videoUri,
-                "Nome do Episódio",
-                "Hotel Laide foi um dos mais importantes hotéis sociais...",
-                120L,
-                "Ação, Aventura",
-                1990,
-                12,
-                "Nome do Diretor",
-                "Ator A, Atriz B, Ator C"
-        );
-
+    private void atualizarInterfaceComFilme(Filme filme, LinearLayout tagsLayout) {
         // Encontrando os elementos no layout
         ImageView imageView = findViewById(R.id.imageView3);
         TextView titleTextView = findViewById(R.id.text_title);
         TextView yearDurationTextView = findViewById(R.id.text_year_duration);
         TextView descriptionTextView = findViewById(R.id.text_description);
 
-        // Carregando a imagem (se for uma imagem local)
-        String imagePath = meuFilme.getImagem(); // Caminho da imagem
-        if (imagePath.startsWith("android.resource://")) {
+        // Configura a imagem no ImageView
+        configurarImagem(imageView, filme.getImagem());
+
+        // Define as informações nos TextViews
+        titleTextView.setText(filme.getTitulo());
+        yearDurationTextView.setText(String.format("%s • %s min", filme.getAno(), filme.getDuracao()));
+        descriptionTextView.setText(filme.getDescricao());
+
+        // Adiciona botões para as tags
+        adicionarTagsDinamicamente(tagsLayout, filme.getTags());
+    }
+
+    private void configurarImagem(ImageView imageView, String imagePath) {
+        // Verifica e carrega a imagem usando o caminho
+        if (imagePath != null && imagePath.startsWith("android.resource://")) {
             try {
-                String packageName = getPackageName();
-                int imageResId = getResources().getIdentifier(imagePath.substring(imagePath.lastIndexOf("/") + 1), "drawable", packageName);
-                imageView.setImageResource(imageResId); // Carrega a imagem do recurso drawable
+                String resourceName = imagePath.substring(imagePath.lastIndexOf("/") + 1);
+                int imageResId = getResources().getIdentifier(resourceName, "drawable", getPackageName());
+                if (imageResId != 0) {
+                    imageView.setImageResource(imageResId);
+                }
             } catch (Exception e) {
                 e.printStackTrace();
+                 // Imagem de fallback em caso de erro
             }
         }
+    }
 
-        // Setando as informações no layout
-        titleTextView.setText(meuFilme.getTitulo()); // Título do episódio
-        yearDurationTextView.setText(meuFilme.getAno() + " • " + meuFilme.getDuracao() + " min"); // Ano e duração
-        descriptionTextView.setText(meuFilme.getDescricao()); // Descrição
+    private void adicionarTagsDinamicamente(LinearLayout tagsLayout, String tags) {
+        // Limpa as tags existentes
+        tagsLayout.removeAllViews();
 
-        // Se você quiser configurar os botões, pode fazer da seguinte forma:
-        Button watchButton = findViewById(R.id.button_watch);
-        Button favoriteButton = findViewById(R.id.button_favorite);
-        Button rateButton = findViewById(R.id.button_rate);
+        if (tags != null && !tags.isEmpty()) {
+            for (String tag : tags.split(",")) {
+                Button botaoTag = new Button(this);
+                botaoTag.setText(tag.trim());
 
-        watchButton.setOnClickListener(v -> {
-            // Ação para assistir
-        });
+                // Configura o estilo do botão
+                LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                        LinearLayout.LayoutParams.WRAP_CONTENT,
+                        LinearLayout.LayoutParams.WRAP_CONTENT
+                );
+                params.setMargins(8, 8, 8, 8);
+                botaoTag.setLayoutParams(params);
 
-        favoriteButton.setOnClickListener(v -> {
-            // Ação para favoritar
-        });
+                tagsLayout.addView(botaoTag);
+            }
+        }
+    }
 
-        rateButton.setOnClickListener(v -> {
-            // Ação para rotular
-        });
+    private void exibirMensagemDeErro() {
+        TextView titleTextView = findViewById(R.id.text_title);
+        titleTextView.setText("Filme não encontrado");
+        TextView yearDurationTextView = findViewById(R.id.text_year_duration);
+        yearDurationTextView.setText("");
+        TextView descriptionTextView = findViewById(R.id.text_description);
+        descriptionTextView.setText("Verifique os dados e tente novamente.");
     }
 }

@@ -496,5 +496,70 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return series;
     }
 
+    public Filme buscarFilmePorImagem(String imagemRecebida) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String query = "SELECT e.id, e.imagem, e.videoUri, e.titulo, e.descricao, e.duracao, " +
+                "f.tags, f.ano, f.classificacaoIndicativa, f.diretor, f.elenco " +
+                "FROM episodio e " +
+                "JOIN filmes f ON e.id = f.id " +
+                "WHERE e.imagem = ?";
+
+        Filme filme = null;
+        Cursor cursor = null;
+
+        try {
+            System.out.println("Imagem recebida para consulta: " + imagemRecebida);
+
+            // Executa a consulta
+            cursor = db.rawQuery(query, new String[]{imagemRecebida});
+
+            if (cursor != null && cursor.moveToFirst()) {
+                // Informações de FilmeEpisodio
+                int id = cursor.getInt(cursor.getColumnIndexOrThrow("id"));
+                String imagem = cursor.getString(cursor.getColumnIndexOrThrow("imagem"));
+                String videoUri = cursor.getString(cursor.getColumnIndexOrThrow("videoUri"));
+                String titulo = cursor.getString(cursor.getColumnIndexOrThrow("titulo"));
+                String descricao = cursor.getString(cursor.getColumnIndexOrThrow("descricao"));
+                long duracao = cursor.getLong(cursor.getColumnIndexOrThrow("duracao"));
+
+                // Informações adicionais de Filme
+                String tags = cursor.getString(cursor.getColumnIndexOrThrow("tags"));
+                int ano = cursor.getInt(cursor.getColumnIndexOrThrow("ano"));
+                int classificacaoIndicativa = cursor.getInt(cursor.getColumnIndexOrThrow("classificacaoIndicativa"));
+                String diretor = cursor.getString(cursor.getColumnIndexOrThrow("diretor"));
+                String elenco = cursor.getString(cursor.getColumnIndexOrThrow("elenco"));
+
+                // Cria o objeto Filme
+                filme = new Filme(
+                        id,
+                        imagem,
+                        videoUri,
+                        titulo,
+                        descricao,
+                        duracao,
+                        tags,
+                        ano,
+                        classificacaoIndicativa,
+                        diretor,
+                        elenco
+                );
+
+                System.out.println("Filme encontrado: " + filme.getTitulo());
+            } else {
+                System.out.println("Nenhum filme encontrado para a imagem: " + imagemRecebida);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
+
+        return filme;
+    }
+
+
+
 
 }

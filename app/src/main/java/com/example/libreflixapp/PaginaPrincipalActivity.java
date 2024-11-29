@@ -51,7 +51,7 @@ public class PaginaPrincipalActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
 
         String episodeName1 = "A Educacao Proibida";
-        String imagem1 = "android.resource://" + getPackageName() + "/drawable/AEducacaoProibida";
+        String imagem1 = "android.resource://" + getPackageName() + "/drawable/aeducacaoproibida";
         String videoUri1 = "android.resource://" + getPackageName() + "/raw/" + episodeName1;
         Filme meuFilme1 = new Filme(
                 1,
@@ -69,7 +69,7 @@ public class PaginaPrincipalActivity extends AppCompatActivity {
         );
 
         String episodeName2 = "Quebrando o Tabu";
-        String imagem2 = "android.resource://" + getPackageName() + "/drawable/QuebrandoOTabu";
+        String imagem2 = "android.resource://" + getPackageName() + "/drawable/quebrandootabu";
         String videoUri2 = "android.resource://" + getPackageName() + "/raw/" + episodeName2;
         Filme meuFilme2 = new Filme(
                 2,
@@ -87,7 +87,7 @@ public class PaginaPrincipalActivity extends AppCompatActivity {
         );
 
         String episodeName3 = "Observar e Absorver";
-        String imagem3 = "android.resource://" + getPackageName() + "/drawable/ObservareAbsorver";
+        String imagem3 = "android.resource://" + getPackageName() + "/drawable/observareabsorver";
         String videoUri3 = "android.resource://" + getPackageName() + "/raw/" + episodeName3;
         Filme meuFilme3 = new Filme(
                 3,
@@ -105,7 +105,7 @@ public class PaginaPrincipalActivity extends AppCompatActivity {
         );
 
         String episodeName4 = "Tempos Modernos";
-        String imagem4 = "android.resource://" + getPackageName() + "/drawable/TemposModernos";
+        String imagem4 = "android.resource://" + getPackageName() + "/drawable/temposmodernos";
         String videoUri4 = "android.resource://" + getPackageName() + "/raw/" + episodeName4;
         Filme meuFilme4 = new Filme(
                 4,
@@ -123,7 +123,7 @@ public class PaginaPrincipalActivity extends AppCompatActivity {
         );
 
         String episodeName5 = "Em Busca da Verdade";
-        String imagem5 = "android.resource://" + getPackageName() + "/drawable/EmBuscaDaVerdade";
+        String imagem5 = "android.resource://" + getPackageName() + "/drawable/embuscadaverdade";
         String videoUri5 = "android.resource://" + getPackageName() + "/raw/" + episodeName5;
         Serie minhaSerie5 = new Serie(
                 5,

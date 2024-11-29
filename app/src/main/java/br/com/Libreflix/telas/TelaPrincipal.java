@@ -49,98 +49,59 @@ public class TelaPrincipal extends AppCompatActivity {
             return insets;
         });
 
-        // Configura o botão
-        Button btnNavegar1 = findViewById(R.id.button3);
-        btnNavegar1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // Cria o Intent para ir para a OutraActivity
-                Intent intent = new Intent(TelaPrincipal.this, TelaPesquisa.class);
-                startActivity(intent);
-            }
-        });
-
-        // Configura o botão
-        Button btnNavegar2 = findViewById(R.id.button5);
-        btnNavegar2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // Cria o Intent para ir para a OutraActivity
-                Intent intent = new Intent(TelaPrincipal.this, TelaCadastroLogin.class);
-                startActivity(intent);
-            }
-        });
-
-        LinearLayout linearLayout = findViewById(R.id.linearLayoutImagens1);
+        // Configura os botões de navegação
+        configurarBotoes();
 
         // Adicionar imagens dinamicamente
-        for (int imagem : imagens1) {
+        configurarImagens();
+    }
+
+    private void configurarBotoes() {
+        // Botão para navegar para a tela de pesquisa
+        Button btnNavegar1 = findViewById(R.id.button3);
+        btnNavegar1.setOnClickListener(view -> {
+            Intent intent = new Intent(TelaPrincipal.this, TelaPesquisa.class);
+            startActivity(intent);
+        });
+
+        // Botão para navegar para a tela de cadastro/login
+        Button btnNavegar2 = findViewById(R.id.button5);
+        btnNavegar2.setOnClickListener(view -> {
+            Intent intent = new Intent(TelaPrincipal.this, TelaCadastroLogin.class);
+            startActivity(intent);
+        });
+    }
+
+    private void configurarImagens() {
+        adicionarImagensDinamicamente(R.id.linearLayoutImagens1, imagens1);
+        adicionarImagensDinamicamente(R.id.linearLayoutImagens2, imagens2);
+        adicionarImagensDinamicamente(R.id.linearLayoutImagens3, imagens3);
+    }
+
+    private void adicionarImagensDinamicamente(int layoutId, int[] imagens) {
+        LinearLayout linearLayout = findViewById(layoutId);
+
+        for (int imagem : imagens) {
             ImageView imageView = new ImageView(this);
             imageView.setImageResource(imagem);
 
-            // Configurar o tamanho e margens
+            // Configurar tamanho e margens
             LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(300, 300);
-            params.setMargins(35, 20, 35, 20); // Margem entre as imagens
+            params.setMargins(35, 20, 35, 20); // Margens entre as imagens
             imageView.setLayoutParams(params);
 
             imageView.setOnClickListener(view -> {
                 Intent intent = new Intent(TelaPrincipal.this, FilmeActivity.class);
 
-                // Passar dados sobre o filme, se necessário
-                intent.putExtra("imagemResId", imagem); // Exemplo de dado para a próxima tela
+                // Converter o recurso de imagem para o formato esperado no banco
+                String imagemResId = "android.resource://" + getPackageName() + "/drawable/" +
+                        getResources().getResourceEntryName(imagem);
+                intent.putExtra("imagemRecebida", imagemResId);
 
                 startActivity(intent);
             });
 
-            // Adicionar o ImageView ao LinearLayout
-            linearLayout.addView(imageView);
-        }
-
-        linearLayout = findViewById(R.id.linearLayoutImagens2);
-
-        for (int imagem : imagens2) {
-            ImageView imageView = new ImageView(this);
-            imageView.setImageResource(imagem);
-
-            // Configurar o tamanho e margens
-            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(300, 300);
-            params.setMargins(35, 20, 35, 20); // Margem entre as imagens
-            imageView.setLayoutParams(params);
-
-            imageView.setOnClickListener(view -> {
-                Intent intent = new Intent(TelaPrincipal.this, FilmeActivity.class);
-
-                // Passar dados sobre o filme, se necessário
-                intent.putExtra("imagemResId", imagem); // Exemplo de dado para a próxima tela
-
-                startActivity(intent);
-            });
-
-            // Adicionar o ImageView ao LinearLayout
-            linearLayout.addView(imageView);
-        }
-
-        linearLayout = findViewById(R.id.linearLayoutImagens3);
-
-        for (int imagem : imagens3) {
-            ImageView imageView = new ImageView(this);
-            imageView.setImageResource(imagem);
-
-            // Configurar o tamanho e margens
-            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(300, 300);
-            params.setMargins(35, 20, 35, 20); // Margem entre as imagens
-            imageView.setLayoutParams(params);
-
-            imageView.setOnClickListener(view -> {
-                Intent intent = new Intent(TelaPrincipal.this, FilmeActivity.class);
-
-                // Passar dados sobre o filme, se necessário
-                intent.putExtra("imagemResId", imagem); // Exemplo de dado para a próxima tela
-
-                startActivity(intent);
-            });
-
-            // Adicionar o ImageView ao LinearLayout
+            // Adicionar o ImageView ao layout
             linearLayout.addView(imageView);
         }
     }
