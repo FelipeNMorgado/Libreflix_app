@@ -13,26 +13,25 @@ import androidx.core.view.WindowInsetsCompat;
 import android.content.Intent;
 import android.view.View;
 import android.widget.Button;
+
+import com.example.libreflixapp.DatabaseHelper;
+import com.example.libreflixapp.FilmeActivity;
 import com.example.libreflixapp.R;
 
 public class TelaPrincipal extends AppCompatActivity {
 
     private final int[] imagens1 = {
-            R.drawable.logo_inicio,
-            R.drawable.logo_inicio,
-            R.drawable.logo_inicio
+            R.drawable.AEducacaoProibida,
+            R.drawable.ObservareAbsorver,
     };
 
     private final int[] imagens2 = {
-            R.drawable.logo_inicio,
-            R.drawable.logo_inicio,
-            R.drawable.logo_inicio
+            R.drawable.QuebrandoOTabu,
+            R.drawable.TemposModernos,
     };
 
     private final int[] imagens3 = {
-            R.drawable.logo_inicio,
-            R.drawable.logo_inicio,
-            R.drawable.logo_inicio
+            R.drawable.EmBuscaDaVerdade,
     };
 
     @Override
@@ -84,6 +83,15 @@ public class TelaPrincipal extends AppCompatActivity {
             params.setMargins(35, 20, 35, 20); // Margem entre as imagens
             imageView.setLayoutParams(params);
 
+            imageView.setOnClickListener(view -> {
+                Intent intent = new Intent(TelaPrincipal.this, FilmeActivity.class);
+
+                // Passar dados sobre o filme, se necessário
+                intent.putExtra("imagemResId", imagem); // Exemplo de dado para a próxima tela
+
+                startActivity(intent);
+            });
+
             // Adicionar o ImageView ao LinearLayout
             linearLayout.addView(imageView);
         }
@@ -99,6 +107,15 @@ public class TelaPrincipal extends AppCompatActivity {
             params.setMargins(35, 20, 35, 20); // Margem entre as imagens
             imageView.setLayoutParams(params);
 
+            imageView.setOnClickListener(view -> {
+                Intent intent = new Intent(TelaPrincipal.this, FilmeActivity.class);
+
+                // Passar dados sobre o filme, se necessário
+                intent.putExtra("imagemResId", imagem); // Exemplo de dado para a próxima tela
+
+                startActivity(intent);
+            });
+
             // Adicionar o ImageView ao LinearLayout
             linearLayout.addView(imageView);
         }
@@ -113,6 +130,15 @@ public class TelaPrincipal extends AppCompatActivity {
             LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(300, 300);
             params.setMargins(35, 20, 35, 20); // Margem entre as imagens
             imageView.setLayoutParams(params);
+
+            imageView.setOnClickListener(view -> {
+                Intent intent = new Intent(TelaPrincipal.this, FilmeActivity.class);
+
+                // Passar dados sobre o filme, se necessário
+                intent.putExtra("imagemResId", imagem); // Exemplo de dado para a próxima tela
+
+                startActivity(intent);
+            });
 
             // Adicionar o ImageView ao LinearLayout
             linearLayout.addView(imageView);

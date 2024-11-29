@@ -30,6 +30,7 @@ import br.com.Libreflix.repositorios.RepositorioSerie;
 import br.com.Libreflix.repositorios.RepositorioUsuario;
 import br.com.Libreflix.telas.LayoutFilmesTelaPrincipal;
 import br.com.Libreflix.telas.TelaPesquisa;
+import br.com.Libreflix.telas.TelaPrincipal;
 
 public class PaginaPrincipalActivity extends AppCompatActivity {
 
@@ -49,29 +50,100 @@ public class PaginaPrincipalActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
 
-        String imagem = "android.resource://" + getPackageName() + "/drawable/tela";
-        String episodeName = "gente Fina";
-        String videoUri = "android.resource://" + getPackageName() + "/raw/" + episodeName;
-        Filme meuFilme = new Filme(
+        String episodeName1 = "A Educacao Proibida";
+        String imagem1 = "android.resource://" + getPackageName() + "/drawable/AEducacaoProibida";
+        String videoUri1 = "android.resource://" + getPackageName() + "/raw/" + episodeName1;
+        Filme meuFilme1 = new Filme(
                 1,
-                imagem,
-                videoUri,
-                episodeName,
-                "Uma Filme topado.",
-                120L,
-                "Ação, Aventura",
-                1990,
-                12,
-                "Nome do Diretor",
-                "Ator A, Atriz B, Ator C"
-        );
-        Usuario meuUsuario = new Usuario(
-                "Pluto",
-                "Pe@gmail.com",
-                "pepe",
-                "1234192001934013"
+                imagem1,
+                videoUri1,
+                episodeName1,
+                "Documentário que se propõe a questionar as lógicas da escolarização moderna e a forma de entender a educação, mostrando diferentes experiências educativas, não convencionais, que propõem a necessidade de um novo modelo educativo.",
+                50,
+                "Documentário",
+                2012,
+                0,
+                "Germán Doin",
+                "Gastón Pauls, Santiago Magariños, Jimena Del Pozo, Tulio Gómez Álzaga, Amira Adre, Ezequiel Ábila, Eugenia Saraseni, Paula González, Nicolás Valenzuela, Alejandra Figueroa"
 
         );
+
+        String episodeName2 = "Quebrando o Tabu";
+        String imagem2 = "android.resource://" + getPackageName() + "/drawable/QuebrandoOTabu";
+        String videoUri2 = "android.resource://" + getPackageName() + "/raw/" + episodeName2;
+        Filme meuFilme2 = new Filme(
+                2,
+                imagem2,
+                videoUri2,
+                episodeName2,
+                "O filme propõe um debate sério e bem informado sobre o complexo problema das drogas no Brasil e no mundo. Participações de Fernando Henrique Cardoso, Bill Clinton, Jimmy Carter, Drauzio Varella e Paulo Coelho.",
+                120,
+                "Documentário",
+                2011,
+                14,
+                "Desconhecido",
+                "Morgan Freeman, Bill Clinton, Fernando Henrique Cardoso, Drauzio Varella"
+
+        );
+
+        String episodeName3 = "Observar e Absorver";
+        String imagem3 = "android.resource://" + getPackageName() + "/drawable/ObservareAbsorver";
+        String videoUri3 = "android.resource://" + getPackageName() + "/raw/" + episodeName3;
+        Filme meuFilme3 = new Filme(
+                3,
+                imagem3,
+                videoUri3,
+                episodeName3,
+                "Eu sou extremamente ambicioso. Eu sou ambicioso de uma forma que ninguém pode conceber. Porque dinheiro, conforto, estabilidade, luxo, pra mim é pouco, eu quero mais. Eu quero tudo que eu puder levar dessa vida",
+                150,
+                "Documentário",
+                2016,
+                12,
+                "José Marques de Carvalho Jr",
+                "Morgan Freeman, Bill Clinton, Fernando Henrique Cardoso, Drauzio Varella"
+
+        );
+
+        String episodeName4 = "Tempos Modernos";
+        String imagem4 = "android.resource://" + getPackageName() + "/drawable/TemposModernos";
+        String videoUri4 = "android.resource://" + getPackageName() + "/raw/" + episodeName4;
+        Filme meuFilme4 = new Filme(
+                4,
+                imagem3,
+                videoUri3,
+                episodeName3,
+                "Tempos Modernos é um filme de 1936 dos Estados Unidos do cineasta Charlie Chaplin em que o seu famoso personagem (O Vagabundo) tenta sobreviver em meio ao mundo moderno e industrializado.",
+                150,
+                "Documentário",
+                1936,
+                0,
+                "Charlie Chaplin",
+                "Charlie Chaplin"
+
+        );
+
+        String episodeName5 = "Em Busca da Verdade";
+        String imagem5 = "android.resource://" + getPackageName() + "/drawable/EmBuscaDaVerdade";
+        String videoUri5 = "android.resource://" + getPackageName() + "/raw/" + episodeName5;
+        Serie minhaSerie5 = new Serie(
+                5,
+                imagem3,
+                videoUri3,
+                episodeName3,
+                "Tempos Modernos",
+                "Documentário apresenta as principais investigações da Comissão Nacional e das Comissões Estaduais da Verdade sobre as graves violações de direitos humanos ocorridas na ditadura de 1964.",
+                2015,
+                10,
+                "Deraldo Goulart",
+                "Guilherme Oliveira, Lorena Maria",
+                1,
+                2,
+                "Tomada do Governo",
+                "Tomando as rédias do Governo, missão difícil e árdua",
+                60
+
+        );
+
         // Criando uma instância da classe Serie
         /*Serie minhaSerie = new Serie(
                 70, // id
@@ -92,17 +164,16 @@ public class PaginaPrincipalActivity extends AppCompatActivity {
         );*/
         new Handler().postDelayed(() -> {
 
-            Intent intent = new Intent(PaginaPrincipalActivity.this, TelaPesquisa.class);
+            Intent intent = new Intent(PaginaPrincipalActivity.this, MainActivity.class);
             startActivity(intent);
 
             finish();
-        }, 1000);
+        }, 500);
 
-        //dBH.favoritar(meuUsuario, minhaSerie);
-        //dBH.assistir(meuUsuario, minhaSerie);
-
-        //ms.incluir(minhaSerie);
-        //mu.incluir(meuUsuario);
-        mf.incluir(meuFilme);
+        mf.incluir(meuFilme1);
+        mf.incluir(meuFilme2);
+        mf.incluir(meuFilme3);
+        mf.incluir(meuFilme4);
+        ms.incluir(minhaSerie5);
     }
 }
