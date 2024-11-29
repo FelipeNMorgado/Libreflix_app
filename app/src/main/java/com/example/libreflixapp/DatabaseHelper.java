@@ -6,6 +6,9 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import br.com.Libreflix.entidade.Filme;
 import br.com.Libreflix.entidade.Episodio;
 import br.com.Libreflix.entidade.Serie;
@@ -300,4 +303,225 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         cursor.close();
         return null;
     }
+    public List<Filme> getAllFilmes() {
+        SQLiteDatabase db = this.getReadableDatabase();
+        List<Filme> filmes = new ArrayList<>();
+
+        String query = "SELECT id, tags, ano, classificacaoIndicativa, diretor, elenco FROM filmes";
+
+        Cursor cursor = null;
+        try {
+            cursor = db.rawQuery(query, null);
+
+            if (cursor.moveToFirst()) {
+                do {
+                    int id = cursor.getInt(cursor.getColumnIndexOrThrow("id"));
+                    String tags = cursor.getString(cursor.getColumnIndexOrThrow("tags"));
+                    int ano = cursor.getInt(cursor.getColumnIndexOrThrow("ano"));
+                    int classificacaoIndicativa = cursor.getInt(cursor.getColumnIndexOrThrow("classificacaoIndicativa"));
+                    String diretor = cursor.getString(cursor.getColumnIndexOrThrow("diretor"));
+                    String elenco = cursor.getString(cursor.getColumnIndexOrThrow("elenco"));
+
+                    // Buscar informações adicionais do filme na tabela episodio
+                    Cursor episodioCursor = db.rawQuery("SELECT titulo, descricao, duracao, videoUri FROM episodio WHERE id = ?", new String[]{String.valueOf(id)});
+                    String titulo = null;
+                    String descricao = null;
+                    long duracao = 0L;
+                    String videoUri = null;
+
+                    if (episodioCursor != null && episodioCursor.moveToFirst()) {
+                        titulo = episodioCursor.getString(episodioCursor.getColumnIndexOrThrow("titulo"));
+                        descricao = episodioCursor.getString(episodioCursor.getColumnIndexOrThrow("descricao"));
+                        duracao = episodioCursor.getLong(episodioCursor.getColumnIndexOrThrow("duracao"));
+                        videoUri = episodioCursor.getString(episodioCursor.getColumnIndexOrThrow("videoUri"));
+                        episodioCursor.close();
+                    }
+
+                    // Criar o objeto Filme com os dados recuperados
+                    Filme filme = new Filme(
+                            id,
+                            videoUri, // URI do vídeo do filme
+                            titulo, // Título do filme
+                            descricao, // Descrição do filme
+                            duracao, // Duração do filme
+                            tags,
+                            ano,
+                            classificacaoIndicativa,
+                            diretor,
+                            elenco
+                    );
+
+                    filmes.add(filme);
+                } while (cursor.moveToNext());
+            }
+        } catch (Exception e) {
+            e.printStackTrace(); // Registrar exceção
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+            db.close();
+        }
+
+        return filmes;
+    }
+
+    public List<Filme> getFilmesByTitulo(String tituloBusca) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        List<Filme> filmes = new ArrayList<>();
+
+        // Consulta SQL com filtro pelo título
+        String query = "SELECT f.id, f.tags, f.ano, f.classificacaoIndicativa, f.diretor, f.elenco, e.titulo, e.descricao, e.duracao, e.videoUri " +
+                "FROM filmes f " +
+                "LEFT JOIN episodio e ON f.id = e.id " +
+                "WHERE e.titulo LIKE ?";
+
+        Cursor cursor = null;
+        try {
+            cursor = db.rawQuery(query, new String[]{"%" + tituloBusca + "%"});
+
+            if (cursor.moveToFirst()) {
+                do {
+                    int id = cursor.getInt(cursor.getColumnIndexOrThrow("id"));
+                    String tags = cursor.getString(cursor.getColumnIndexOrThrow("tags"));
+                    int ano = cursor.getInt(cursor.getColumnIndexOrThrow("ano"));
+                    int classificacaoIndicativa = cursor.getInt(cursor.getColumnIndexOrThrow("classificacaoIndicativa"));
+                    String diretor = cursor.getString(cursor.getColumnIndexOrThrow("diretor"));
+                    String elenco = cursor.getString(cursor.getColumnIndexOrThrow("elenco"));
+
+                    String titulo = cursor.getString(cursor.getColumnIndexOrThrow("titulo"));
+                    String descricao = cursor.getString(cursor.getColumnIndexOrThrow("descricao"));
+                    long duracao = cursor.getLong(cursor.getColumnIndexOrThrow("duracao"));
+                    String videoUri = cursor.getString(cursor.getColumnIndexOrThrow("videoUri"));
+
+                    // Criar o objeto Filme com os dados recuperados
+                    Filme filme = new Filme(
+                            id,
+                            videoUri,
+                            titulo,
+                            descricao,
+                            duracao,
+                            tags,
+                            ano,
+                            classificacaoIndicativa,
+                            diretor,
+                            elenco
+                    );
+
+                    filmes.add(filme);
+                } while (cursor.moveToNext());
+            }
+        } catch (Exception e) {
+            e.printStackTrace(); // Registrar exceção para depuração
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+            db.close();
+        }
+
+        return filmes;
+    }
+
+    // Consultar filmes no banco de dados
+    public List<Filme> consultarFilmes(String termoBusca) {
+        List<Filme> filmes = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.query("filmes", null, "titulo LIKE ?", new String[]{"%" + termoBusca + "%"}, null, null, null);
+
+        if (cursor != null && cursor.moveToFirst()) {
+            do {
+                // Verifique se a coluna realmente existe antes de acessar
+                int idIndex = cursor.getColumnIndex("id");
+                int tagsIndex = cursor.getColumnIndex("tags");
+                int tituloIndex = cursor.getColumnIndex("titulo");
+                int descricaoIndex = cursor.getColumnIndex("descricao");
+                int duracaoIndex = cursor.getColumnIndex("duracao");
+                int generoIndex = cursor.getColumnIndex("genero");
+                int anoIndex = cursor.getColumnIndex("ano");
+                int faixaEtariaIndex = cursor.getColumnIndex("faixa_etaria");
+                int usuarioInclusaoIndex = cursor.getColumnIndex("usuario_inclusao");
+                int usuarioUltimaAlteracaoIndex = cursor.getColumnIndex("usuario_ultima_alteracao");
+
+                if (idIndex != -1 && tagsIndex != -1 && tituloIndex != -1) {
+                    Filme filme = new Filme(
+                            cursor.getInt(idIndex),
+                            cursor.getString(tagsIndex),
+                            cursor.getString(tituloIndex),
+                            cursor.getString(descricaoIndex),
+                            cursor.getInt(duracaoIndex),
+                            cursor.getString(generoIndex),
+                            cursor.getInt(anoIndex),
+                            cursor.getInt(faixaEtariaIndex),
+                            cursor.getString(usuarioInclusaoIndex),
+                            cursor.getString(usuarioUltimaAlteracaoIndex)
+                    );
+                    filmes.add(filme);
+                }
+            } while (cursor.moveToNext());
+        }
+        if (cursor != null) cursor.close();
+        return filmes;
+    }
+
+
+    // Consultar séries no banco de dados
+    public List<Serie> consultarSeries(String termoBusca) {
+        List<Serie> series = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        // Consulta na tabela "Serie" para obter as séries que correspondem ao termo de busca
+        Cursor cursor = db.query("Serie", null, "tituloSerie LIKE ?", new String[]{"%" + termoBusca + "%"}, null, null, null);
+
+        if (cursor != null && cursor.moveToFirst()) {
+            do {
+                // Verifica os índices das colunas no Cursor
+                int idIndex = cursor.getColumnIndex("id");
+                int uriVideoIndex = cursor.getColumnIndex("videoUri");  // URI do vídeo
+                int tagsIndex = cursor.getColumnIndex("tags");
+                int tituloSerieIndex = cursor.getColumnIndex("tituloSerie");
+                int descricaoSerieIndex = cursor.getColumnIndex("descricaoSerie");
+                int anoIndex = cursor.getColumnIndex("ano");
+                int classificacaoIndicativaIndex = cursor.getColumnIndex("classificacaoIndicativa");
+                int diretorIndex = cursor.getColumnIndex("diretor");
+                int elencoIndex = cursor.getColumnIndex("elenco");
+                int qntdTemporadasIndex = cursor.getColumnIndex("qntdTemporadas");
+                int qntdEpisodiosTotaisIndex = cursor.getColumnIndex("qntdEpisodiosTotais"); // Total de episódios
+                int tituloEpisodioIndex = cursor.getColumnIndex("titulo"); // Título do episódio
+                int descricaoEpisodioIndex = cursor.getColumnIndex("descricao"); // Descrição do episódio
+                int duracaoEpisodioIndex = cursor.getColumnIndex("duracao"); // Duração do episódio
+
+                // Verifica se todas as colunas necessárias existem
+                if (idIndex != -1 && uriVideoIndex != -1 && tituloSerieIndex != -1 && descricaoSerieIndex != -1) {
+                    // Cria um novo objeto Serie com os valores obtidos do Cursor
+                    Serie serie = new Serie(
+                            cursor.getInt(idIndex),  // id
+                            cursor.getString(uriVideoIndex),  // uriVidio
+                            cursor.getString(tagsIndex),  // tags
+                            cursor.getString(tituloSerieIndex),  // tituloSerie
+                            cursor.getString(descricaoSerieIndex),  // descricaoSerie
+                            cursor.getInt(anoIndex),  // ano
+                            cursor.getInt(classificacaoIndicativaIndex),  // classificacaoIndicativa
+                            cursor.getString(diretorIndex),  // diretor
+                            cursor.getString(elencoIndex),  // elenco
+                            cursor.getInt(qntdTemporadasIndex),  // qntdTemporadas
+                            cursor.getInt(qntdEpisodiosTotaisIndex), // qntdEpisodiosTotais
+                            cursor.getString(tituloEpisodioIndex),  // tituloEpisodio
+                            cursor.getString(descricaoEpisodioIndex),  // descricaoEpisodio
+                            cursor.getLong(duracaoEpisodioIndex)  // duracaoEpisodio
+                    );
+                    // Adiciona a série à lista
+                    series.add(serie);
+                }
+            } while (cursor.moveToNext());
+        }
+
+        if (cursor != null) {
+            cursor.close();  // Fecha o cursor
+        }
+
+        return series;
+    }
+
+
 }

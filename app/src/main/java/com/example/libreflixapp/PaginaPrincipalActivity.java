@@ -1,9 +1,11 @@
 package com.example.libreflixapp;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
 import android.widget.MediaController;
@@ -25,6 +27,8 @@ import br.com.Libreflix.mediators.MediatorSerie;
 import br.com.Libreflix.mediators.MediatorUsuario;
 import br.com.Libreflix.repositorios.RepositorioSerie;
 import br.com.Libreflix.repositorios.RepositorioUsuario;
+import br.com.Libreflix.telas.LayoutFilmesTelaPrincipal;
+import br.com.Libreflix.telas.TelaPesquisa;
 
 public class PaginaPrincipalActivity extends AppCompatActivity {
 
@@ -84,12 +88,19 @@ public class PaginaPrincipalActivity extends AppCompatActivity {
                 "Introdução aos personagens e ao universo.", // descicaoEpisodio
                 3600L // duracaoEpisodio em segundos
         );
+        new Handler().postDelayed(() -> {
+
+            Intent intent = new Intent(PaginaPrincipalActivity.this, TelaPesquisa.class);
+            startActivity(intent);
+
+            finish();
+        }, 1000);
 
         dBH.favoritar(meuUsuario, minhaSerie);
         dBH.assistir(meuUsuario, minhaSerie);
 
         //ms.incluir(minhaSerie);
         //mu.incluir(meuUsuario);
-        //mf.incluir(meuFilme);
+        mf.incluir(meuFilme);
     }
 }
