@@ -2,20 +2,56 @@ package com.example.libreflixapp;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import br.com.Libreflix.entidade.Filme;
+import br.com.Libreflix.entidade.Tags;
 
 public class FilmeActivity extends AppCompatActivity {
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_filme);  // Nome do seu layout XML
+        setContentView(R.layout.activity_filme);
+        LinearLayout tagsLayout = findViewById(R.id.TagsLayout);
+
+        // Simulação: Tags associadas ao filme
+        List<Tags> tagsDoFilme = new ArrayList<>();
+        tagsDoFilme.add(Tags.ACAO);
+        tagsDoFilme.add(Tags.COMEDIA);
+        tagsDoFilme.add(Tags.DRAMA);
+
+        // Criar botões para cada tag
+        for (Tags tag : tagsDoFilme) {
+            Button botaoTag = new Button(this);
+            botaoTag.setText(tag.getTag()); // Usar o nome da tag como texto
+            botaoTag.setBackgroundColor(ContextCompat.getColor(this,R.color.btn_detail));
+            botaoTag.setTextColor(Color.WHITE);
+            botaoTag.setPadding(16, 8, 16, 8);
+
+            // Configurações de layout do botão
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.WRAP_CONTENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT
+            );
+            params.setMargins(8, 8, 8, 8); // Margens ao redor do botão
+            botaoTag.setLayoutParams(params);
+
+            // Adicionar o botão ao TagsLayout
+            tagsLayout.addView(botaoTag);
+        }
+         // Nome do seu layout XML
 
         // Criando uma instância de Filme (simulando um filme que você recebeu de outra parte do código)
         String imagem = "android.resource://" + getPackageName() + "/drawable/tela"; // Caminho da imagem no recurso
