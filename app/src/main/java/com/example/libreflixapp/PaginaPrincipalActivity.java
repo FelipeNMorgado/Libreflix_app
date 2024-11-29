@@ -168,7 +168,7 @@ public class PaginaPrincipalActivity extends AppCompatActivity {
             startActivity(intent);
 
             finish();
-        }, 500);
+        }, 50);
 
         mf.incluir(meuFilme1);
         mf.incluir(meuFilme2);

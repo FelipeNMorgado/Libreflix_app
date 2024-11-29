@@ -58,29 +58,21 @@ public class FilmeActivity extends AppCompatActivity {
 
         // Configura o botão para rodar o vídeo
         playVideoButton.setOnClickListener(v -> {
-            //if (videoPath != null && !videoPath.isEmpty()) {
-                // Configura o VideoView
-                String videoUri2 = "android.resource://" + getPackageName() + "/raw/" + "video1";
+            setContentView(R.layout.activity_plano_fundo_video); // Substitua com o layout do player
 
-                videoView.setVideoPath(videoUri2);
+            VideoView videoView1 = findViewById(R.id.videoView); // Elemento do novo layout
+            String videoUri = "android.resource://" + getPackageName() + "/raw/" + "video1";
+            videoView1.setVideoPath(videoUri);
 
-                // Configura o MediaController para controlar a reprodução
-                MediaController mediaController = new MediaController(this);
-                mediaController.setAnchorView(videoView);
-                videoView.setMediaController(mediaController);
+            MediaController mediaController = new MediaController(this);
+            mediaController.setAnchorView(videoView1);
+            videoView1.setMediaController(mediaController);
 
-                // Exibe o VideoView e inicia o vídeo
-                videoView.setVisibility(View.VISIBLE);
-                videoView.start();
+            videoView1.start();
 
-                // Configura o evento para lidar com a conclusão do vídeo
-                videoView.setOnCompletionListener(mp -> {
-                    Toast.makeText(FilmeActivity.this, "Vídeo finalizado", Toast.LENGTH_SHORT).show();
-                });
-           // } else {
-                // Mostra uma mensagem caso o vídeo não seja encontrado
-              //  Toast.makeText(this, "Caminho do vídeo inválido ou não encontrado", Toast.LENGTH_SHORT).show();
-           // }
+            videoView1.setOnCompletionListener(mp -> {
+                Toast.makeText(FilmeActivity.this, "Vídeo finalizado", Toast.LENGTH_SHORT).show();
+            });
         });
     }
 
