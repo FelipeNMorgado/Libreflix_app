@@ -38,7 +38,7 @@ public class FilmeActivity extends AppCompatActivity {
             botaoTag.setText(tag.getTag()); // Usar o nome da tag como texto
             botaoTag.setBackgroundColor(ContextCompat.getColor(this,R.color.btn_detail));
             botaoTag.setTextColor(Color.WHITE);
-            botaoTag.setPadding(16, 8, 16, 8);
+            botaoTag.setPadding(0, 0, 0, 0);
 
             // Configurações de layout do botão
             LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(

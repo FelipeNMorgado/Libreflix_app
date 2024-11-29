@@ -21,17 +21,17 @@ import com.example.libreflixapp.R;
 public class TelaPrincipal extends AppCompatActivity {
 
     private final int[] imagens1 = {
-            R.drawable.AEducacaoProibida,
-            R.drawable.ObservareAbsorver,
+            R.drawable.aeducacaoproibida,
+            R.drawable.observareabsorver,
     };
 
     private final int[] imagens2 = {
-            R.drawable.QuebrandoOTabu,
-            R.drawable.TemposModernos,
+            R.drawable.quebrandootabu,
+            R.drawable.temposmodernos,
     };
 
     private final int[] imagens3 = {
-            R.drawable.EmBuscaDaVerdade,
+            R.drawable.embuscadaverdade,
     };
 
     @Override

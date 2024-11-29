@@ -164,7 +164,7 @@ public class PaginaPrincipalActivity extends AppCompatActivity {
         );*/
         new Handler().postDelayed(() -> {
 
-            Intent intent = new Intent(PaginaPrincipalActivity.this, MainActivity.class);
+            Intent intent = new Intent(PaginaPrincipalActivity.this, TelaPrincipal.class);
             startActivity(intent);
 
             finish();

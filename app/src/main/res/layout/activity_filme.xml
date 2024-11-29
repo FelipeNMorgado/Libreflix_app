@@ -137,7 +137,7 @@
         android:layout_width="409dp"
         android:layout_height="54dp"
         android:layout_marginTop="68dp"
-        android:orientation="vertical"
+        android:orientation="horizontal"
         app:layout_constraintBottom_toTopOf="@+id/recycler_episodes"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
