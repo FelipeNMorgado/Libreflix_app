@@ -86,7 +86,7 @@ public class TelaPesquisa extends AppCompatActivity {
         }
 
         try {
-            List<Filme> filmes = dbh.getAllFilmes();
+            List<Filme> filmes = dbh.getFilmesByTitulo(termoBusca);
             List<Serie> series = dbh.consultarSeries(termoBusca);
 
             if (filmes.isEmpty() && series.isEmpty()) {

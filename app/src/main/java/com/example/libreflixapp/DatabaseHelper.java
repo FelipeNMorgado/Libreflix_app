@@ -17,7 +17,7 @@ import br.com.Libreflix.entidade.Usuario;
 public class DatabaseHelper extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "libreflix2.db";
-    private static final int DATABASE_VERSION = 7;
+    private static final int DATABASE_VERSION = 9;
 
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -37,11 +37,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         String CREATE_TABLE_EPISODIO = "CREATE TABLE episodio (" +
                 "id INTEGER PRIMARY KEY, " +
+                "imagem TEXT, " +
                 "videoUri TEXT, " +
                 "titulo TEXT NOT NULL, " +
                 "descricao TEXT, " +
                 "duracao INTEGER, " +
-                "tipo TEXT NOT NULL" +
+                "tipo TEXT NOT NULL, " +
+                "idSerie INTEGER, " + // Chave estrangeira para Serie
+                "FOREIGN KEY (idSerie) REFERENCES Serie(id) ON DELETE CASCADE" +
                 ");";
         db.execSQL(CREATE_TABLE_EPISODIO);
 
@@ -54,6 +57,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         String CREATE_TABLE_SERIE = "CREATE TABLE Serie (" +
                 "id INTEGER PRIMARY KEY, " +
+                "imagem TEXT, " +
                 "tituloSerie TEXT NOT NULL, " +
                 "descricaoSerie TEXT NOT NULL, " +
                 "tags TEXT NOT NULL, " +
@@ -188,12 +192,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         // Inserindo o episódio correspondente na tabela "episodio"
         ContentValues episodioValues = new ContentValues();
         episodioValues.put("id", filme.getId());
+        episodioValues.put("imagem", filme.getImagem());
         episodioValues.put("videoUri", filme.getUriVideo()); // Usando URI do vídeo do filme
         episodioValues.put("titulo", filme.getTitulo()); // Título do filme como título do episódio
         episodioValues.put("descricao", filme.getDescricao()); // Descrição do filme
         episodioValues.put("duracao", filme.getDuracao()); // Duração do filme
         episodioValues.put("tipo", "Filme"); // Tipo fixo como "Filme" (ou outro, conforme necessidade)
-
+        episodioValues.put("idSerie", "null");
         db.insert("episodio", null, episodioValues);
 
         db.close();
@@ -232,12 +237,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         // Inserindo o episódio correspondente na tabela "episodio"
         ContentValues episodioValues = new ContentValues();
         episodioValues.put("id", serie.getId());
+        episodioValues.put("imagem", serie.getImagem());
         episodioValues.put("videoUri", serie.getUriVideo()); // Usando URI do vídeo do filme
         episodioValues.put("titulo", serie.getTitulo()); // Título do filme como título do episódio
         episodioValues.put("descricao", serie.getDescricao()); // Descrição do filme
         episodioValues.put("duracao", serie.getDuracao()); // Duração do filme
         episodioValues.put("tipo", "Serie"); // Tipo fixo como "Filme" (ou outro, conforme necessidade)
-
+        episodioValues.put("idSerie", serie.getId());
         db.insert("episodio", null, episodioValues);
 
         db.close();
@@ -325,12 +331,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     // Buscar informações adicionais do filme na tabela episodio
                     Cursor episodioCursor = db.rawQuery("SELECT titulo, descricao, duracao, videoUri FROM episodio WHERE id = ?", new String[]{String.valueOf(id)});
                     String titulo = null;
+                    String imagem = null;
                     String descricao = null;
                     long duracao = 0L;
                     String videoUri = null;
 
                     if (episodioCursor != null && episodioCursor.moveToFirst()) {
                         titulo = episodioCursor.getString(episodioCursor.getColumnIndexOrThrow("titulo"));
+                        imagem = episodioCursor.getString(episodioCursor.getColumnIndexOrThrow("imagem"));
                         descricao = episodioCursor.getString(episodioCursor.getColumnIndexOrThrow("descricao"));
                         duracao = episodioCursor.getLong(episodioCursor.getColumnIndexOrThrow("duracao"));
                         videoUri = episodioCursor.getString(episodioCursor.getColumnIndexOrThrow("videoUri"));
@@ -340,6 +348,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     // Criar o objeto Filme com os dados recuperados
                     Filme filme = new Filme(
                             id,
+                            imagem,
                             videoUri, // URI do vídeo do filme
                             titulo, // Título do filme
                             descricao, // Descrição do filme
@@ -349,7 +358,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                             classificacaoIndicativa,
                             diretor,
                             elenco
-                    );
+                            );
 
                     filmes.add(filme);
                 } while (cursor.moveToNext());
@@ -370,18 +379,19 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
         List<Filme> filmes = new ArrayList<>();
 
-        // Consulta SQL com filtro pelo título
-        String query = "SELECT f.id, f.tags, f.ano, f.classificacaoIndicativa, f.diretor, f.elenco, e.titulo, e.descricao, e.duracao, e.videoUri " +
+        // Consulta SQL ajustada com ordenação por similaridade com base na posição do match
+        String query = "SELECT f.id, f.tags, f.ano, f.classificacaoIndicativa, f.diretor, f.elenco, " +
+                "e.titulo, e.descricao, e.duracao, e.videoUri, " +
+                "INSTR(LOWER(e.titulo), LOWER(?)) AS relevancia " + // Calcula a posição da similaridade
                 "FROM filmes f " +
-                "LEFT JOIN episodio e ON f.id = e.id " +
-                "WHERE e.titulo LIKE ?";
+                "INNER JOIN episodio e ON f.id = e.id " +
+                "WHERE LOWER(e.titulo) LIKE ? " + // Busca case-insensitive
+                "ORDER BY relevancia ASC, LENGTH(e.titulo) ASC"; // Ordena por relevância e comprimento do título
 
-        Cursor cursor = null;
-        try {
-            cursor = db.rawQuery(query, new String[]{"%" + tituloBusca + "%"});
-
+        try (Cursor cursor = db.rawQuery(query, new String[]{tituloBusca.toLowerCase(), "%" + tituloBusca.toLowerCase() + "%"})) {
             if (cursor.moveToFirst()) {
                 do {
+                    // Recuperar os valores do cursor
                     int id = cursor.getInt(cursor.getColumnIndexOrThrow("id"));
                     String tags = cursor.getString(cursor.getColumnIndexOrThrow("tags"));
                     int ano = cursor.getInt(cursor.getColumnIndexOrThrow("ano"));
@@ -390,6 +400,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     String elenco = cursor.getString(cursor.getColumnIndexOrThrow("elenco"));
 
                     String titulo = cursor.getString(cursor.getColumnIndexOrThrow("titulo"));
+                    String imagem = cursor.getString(cursor.getColumnIndexOrThrow("imagem"));
                     String descricao = cursor.getString(cursor.getColumnIndexOrThrow("descricao"));
                     long duracao = cursor.getLong(cursor.getColumnIndexOrThrow("duracao"));
                     String videoUri = cursor.getString(cursor.getColumnIndexOrThrow("videoUri"));
@@ -397,6 +408,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     // Criar o objeto Filme com os dados recuperados
                     Filme filme = new Filme(
                             id,
+                            imagem,
                             videoUri,
                             titulo,
                             descricao,
@@ -414,55 +426,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         } catch (Exception e) {
             e.printStackTrace(); // Registrar exceção para depuração
         } finally {
-            if (cursor != null) {
-                cursor.close();
-            }
-            db.close();
+            db.close(); // Fechar o banco de dados
         }
 
         return filmes;
     }
 
-    // Consultar filmes no banco de dados
-    public List<Filme> consultarFilmes(String termoBusca) {
-        List<Filme> filmes = new ArrayList<>();
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.query("filmes", null, "titulo LIKE ?", new String[]{"%" + termoBusca + "%"}, null, null, null);
 
-        if (cursor != null && cursor.moveToFirst()) {
-            do {
-                // Verifique se a coluna realmente existe antes de acessar
-                int idIndex = cursor.getColumnIndex("id");
-                int tagsIndex = cursor.getColumnIndex("tags");
-                int tituloIndex = cursor.getColumnIndex("titulo");
-                int descricaoIndex = cursor.getColumnIndex("descricao");
-                int duracaoIndex = cursor.getColumnIndex("duracao");
-                int generoIndex = cursor.getColumnIndex("genero");
-                int anoIndex = cursor.getColumnIndex("ano");
-                int faixaEtariaIndex = cursor.getColumnIndex("faixa_etaria");
-                int usuarioInclusaoIndex = cursor.getColumnIndex("usuario_inclusao");
-                int usuarioUltimaAlteracaoIndex = cursor.getColumnIndex("usuario_ultima_alteracao");
 
-                if (idIndex != -1 && tagsIndex != -1 && tituloIndex != -1) {
-                    Filme filme = new Filme(
-                            cursor.getInt(idIndex),
-                            cursor.getString(tagsIndex),
-                            cursor.getString(tituloIndex),
-                            cursor.getString(descricaoIndex),
-                            cursor.getInt(duracaoIndex),
-                            cursor.getString(generoIndex),
-                            cursor.getInt(anoIndex),
-                            cursor.getInt(faixaEtariaIndex),
-                            cursor.getString(usuarioInclusaoIndex),
-                            cursor.getString(usuarioUltimaAlteracaoIndex)
-                    );
-                    filmes.add(filme);
-                }
-            } while (cursor.moveToNext());
-        }
-        if (cursor != null) cursor.close();
-        return filmes;
-    }
 
 
     // Consultar séries no banco de dados
@@ -477,6 +448,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             do {
                 // Verifica os índices das colunas no Cursor
                 int idIndex = cursor.getColumnIndex("id");
+                int imagemIndex = cursor.getColumnIndex("id");
                 int uriVideoIndex = cursor.getColumnIndex("videoUri");  // URI do vídeo
                 int tagsIndex = cursor.getColumnIndex("tags");
                 int tituloSerieIndex = cursor.getColumnIndex("tituloSerie");
@@ -496,6 +468,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     // Cria um novo objeto Serie com os valores obtidos do Cursor
                     Serie serie = new Serie(
                             cursor.getInt(idIndex),  // id
+                            cursor.getString(imagemIndex),
                             cursor.getString(uriVideoIndex),  // uriVidio
                             cursor.getString(tagsIndex),  // tags
                             cursor.getString(tituloSerieIndex),  // tituloSerie

@@ -11,8 +11,8 @@ public class Serie extends Episodio{
     private String tituloSerie;
     private String descricaoSerie;
 
-    public Serie(int id, String uriVidio, String tags, String tituloSerie, String descricaoSerie, int ano, int classificacaoIndicativa, String diretor, String elenco, int qntdTemporadas, int qntdEpisodiosTotais, String tituloEpisodio, String descicaoEpisodio, long duracaoEpisodio) {
-        super(id, uriVidio, tituloEpisodio, descicaoEpisodio, duracaoEpisodio);
+    public Serie(int id, String imagem, String uriVidio, String tags, String tituloSerie, String descricaoSerie, int ano, int classificacaoIndicativa, String diretor, String elenco, int qntdTemporadas, int qntdEpisodiosTotais, String tituloEpisodio, String descicaoEpisodio, long duracaoEpisodio) {
+        super(id, imagem, uriVidio, tituloEpisodio, descicaoEpisodio, duracaoEpisodio);
         this.tags = tags;
         this.ano = ano;
         this.classificacaoIndicativa = classificacaoIndicativa;

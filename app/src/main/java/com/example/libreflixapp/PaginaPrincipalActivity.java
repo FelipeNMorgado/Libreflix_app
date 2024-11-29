@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.MediaController;
 import android.widget.Toast;
 import android.widget.VideoView;
@@ -47,16 +48,16 @@ public class PaginaPrincipalActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_pagina_principal2);
 
-
-        String episodeName = "qiuwdi";
+        String imagem = "android.resource://" + getPackageName() + "/drawable/tela";
+        String episodeName = "gente Fina";
         String videoUri = "android.resource://" + getPackageName() + "/raw/" + episodeName;
         Filme meuFilme = new Filme(
-                191,
+                1,
+                imagem,
                 videoUri,
                 episodeName,
-                "Uma descrição interessante.",
+                "Uma Filme topado.",
                 120L,
                 "Ação, Aventura",
                 1990,
@@ -72,8 +73,9 @@ public class PaginaPrincipalActivity extends AppCompatActivity {
 
         );
         // Criando uma instância da classe Serie
-        Serie minhaSerie = new Serie(
+        /*Serie minhaSerie = new Serie(
                 70, // id
+
                 "https://exemplo.com/video.mp4", // uriVidio
                 "Ação, Aventura", // tags
                 "Uma Série Fantástica", // tituloSerie
@@ -87,7 +89,7 @@ public class PaginaPrincipalActivity extends AppCompatActivity {
                 "P", // tituloEpisodio
                 "Introdução aos personagens e ao universo.", // descicaoEpisodio
                 3600L // duracaoEpisodio em segundos
-        );
+        );*/
         new Handler().postDelayed(() -> {
 
             Intent intent = new Intent(PaginaPrincipalActivity.this, TelaPesquisa.class);
@@ -96,8 +98,8 @@ public class PaginaPrincipalActivity extends AppCompatActivity {
             finish();
         }, 1000);
 
-        dBH.favoritar(meuUsuario, minhaSerie);
-        dBH.assistir(meuUsuario, minhaSerie);
+        //dBH.favoritar(meuUsuario, minhaSerie);
+        //dBH.assistir(meuUsuario, minhaSerie);
 
         //ms.incluir(minhaSerie);
         //mu.incluir(meuUsuario);

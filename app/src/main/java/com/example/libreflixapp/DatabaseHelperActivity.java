@@ -50,7 +50,7 @@ public class DatabaseHelperActivity extends AppCompatActivity {
 
                 String episodeName = "qiuwdi";
                 String videoUri = "android.resource://" + getPackageName() + "/raw/" + episodeName;
-                Filme meuFilme = new Filme(
+                /*Filme meuFilme = new Filme(
                         11,
                         videoUri,
                         episodeName,
@@ -61,7 +61,7 @@ public class DatabaseHelperActivity extends AppCompatActivity {
                         12,
                         "Nome do Diretor",
                         "Ator A, Atriz B, Ator C"
-                );
+                );*/
                 Usuario meuUsuario = new Usuario(
                         "Pietro",
                         "p@gmail.com",
