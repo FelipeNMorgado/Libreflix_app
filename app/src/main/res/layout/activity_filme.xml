@@ -6,10 +6,18 @@
     android:layout_height="match_parent"
     android:background="@color/Libreflix_Background">
 
+    <!-- Video View -->
+    <VideoView
+        android:id="@+id/videoView5"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:visibility="gone"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
     <!-- Imagem do título -->
-
-    <!-- Título do hotel -->
-
     <ImageView
         android:id="@+id/imageView3"
         android:layout_width="416dp"
@@ -19,8 +27,9 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/videoView5" /> <!-- Ensure image is below the video -->
 
+    <!-- Other elements like TextViews, buttons, RecyclerView, etc. remain the same -->
     <TextView
         android:id="@+id/text_title"
         android:layout_width="wrap_content"
@@ -32,7 +41,7 @@
         android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button9" />
+        app:layout_constraintTop_toBottomOf="@id/imageView3" />
 
     <!-- Ano e duração -->
     <TextView
@@ -60,21 +69,16 @@
         app:layout_constraintTop_toBottomOf="@id/text_year_duration" />
 
     <!-- Botões de ações -->
-
-    <!-- Lista de episódios -->
     <LinearLayout
         android:id="@+id/action_buttons"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-
         android:layout_marginTop="-10dp"
         android:orientation="horizontal"
         android:padding="16dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/text_description">
-
 
         <Button
             android:id="@+id/button_watch"
@@ -82,7 +86,7 @@
             android:layout_height="35dp"
             android:backgroundTint="#494949"
             android:padding="0dp"
-            android:text="ja vi" />
+            android:text="já vi" />
 
         <Button
             android:id="@+id/button_favorite"
@@ -102,7 +106,6 @@
             android:backgroundTint="#313131"
             android:padding="0dp"
             android:text="Retribuir"
-
             app:cornerRadius="10dp" />
     </LinearLayout>
 
@@ -112,9 +115,8 @@
         android:layout_height="300dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/action_buttons"
+        app:layout_constraintTop_toBottomOf="@id/action_buttons"
         app:layout_constraintVertical_bias="1.0" />
 
     <Button
@@ -130,7 +132,7 @@
         app:cornerRadius="5dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/imageView3" />
+        app:layout_constraintTop_toTopOf="@id/imageView3" />
 
     <LinearLayout
         android:id="@+id/TagsLayout"
@@ -151,6 +153,5 @@
             android:text="Tags :"
             android:textColor="#FFFFFF" />
     </LinearLayout>
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,12 +1,19 @@
 package com.example.libreflixapp;
 
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
+import android.widget.VideoView;
+import android.media.MediaPlayer;
+import android.widget.MediaController;
 import androidx.appcompat.app.AppCompatActivity;
+
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteOpenHelper;
 
 import br.com.Libreflix.entidade.Filme;
 
@@ -17,28 +24,64 @@ public class FilmeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_filme);
 
+        // Configuração para as tags
         LinearLayout tagsLayout = findViewById(R.id.TagsLayout);
 
-        // Recebe o caminho da imagem da intent
-        String imagemRecebida = getIntent().getStringExtra("imagemRecebida");
+        // Configurações do VideoView e botão
+        VideoView videoView = findViewById(R.id.videoView5);
+        Button playVideoButton = findViewById(R.id.button9);
 
-        // Inicializa o banco de dados
+        // Recebe o caminho do vídeo (supõe que o vídeo seja passado pela intent)
+        String videoPath = getIntent().getStringExtra("videoPath");
+
+        // Instância do banco de dados
         DatabaseHelper dbHelper = new DatabaseHelper(this);
         SQLiteDatabase db = dbHelper.getReadableDatabase();
 
-        // Busca o filme no banco de dados usando a imagem recebida
+        // Supõe que o caminho da imagem ou filme seja passado pela intent para buscar o filme
+        String imagemRecebida = getIntent().getStringExtra("imagemRecebida");
+
+        // Busca o filme usando a imagem recebida
         Filme filme = dbHelper.buscarFilmePorImagem(imagemRecebida);
 
         if (filme != null) {
             // Atualiza a interface com os dados do filme
             atualizarInterfaceComFilme(filme, tagsLayout);
         } else {
-            // Exibe mensagem de erro se nenhum filme for encontrado
-            exibirMensagemDeErro();
+            // Mostra mensagem de erro se nenhum filme foi encontrado
+            TextView titleTextView = findViewById(R.id.text_title);
+            titleTextView.setText("Filme não encontrado");
         }
 
         // Fecha o banco de dados
         db.close();
+
+        // Configura o botão para rodar o vídeo
+        playVideoButton.setOnClickListener(v -> {
+            //if (videoPath != null && !videoPath.isEmpty()) {
+                // Configura o VideoView
+                String videoUri2 = "android.resource://" + getPackageName() + "/raw/" + "video1";
+
+                videoView.setVideoPath(videoUri2);
+
+                // Configura o MediaController para controlar a reprodução
+                MediaController mediaController = new MediaController(this);
+                mediaController.setAnchorView(videoView);
+                videoView.setMediaController(mediaController);
+
+                // Exibe o VideoView e inicia o vídeo
+                videoView.setVisibility(View.VISIBLE);
+                videoView.start();
+
+                // Configura o evento para lidar com a conclusão do vídeo
+                videoView.setOnCompletionListener(mp -> {
+                    Toast.makeText(FilmeActivity.this, "Vídeo finalizado", Toast.LENGTH_SHORT).show();
+                });
+           // } else {
+                // Mostra uma mensagem caso o vídeo não seja encontrado
+              //  Toast.makeText(this, "Caminho do vídeo inválido ou não encontrado", Toast.LENGTH_SHORT).show();
+           // }
+        });
     }
 
     private void atualizarInterfaceComFilme(Filme filme, LinearLayout tagsLayout) {
@@ -48,62 +91,39 @@ public class FilmeActivity extends AppCompatActivity {
         TextView yearDurationTextView = findViewById(R.id.text_year_duration);
         TextView descriptionTextView = findViewById(R.id.text_description);
 
-        // Configura a imagem no ImageView
-        configurarImagem(imageView, filme.getImagem());
+        // Carrega a imagem
+        String imagePath = filme.getImagem();
+        if (imagePath.startsWith("android.resource://")) {
+            try {
+                int imageResId = getResources().getIdentifier(
+                        imagePath.substring(imagePath.lastIndexOf("/") + 1),
+                        "drawable",
+                        getPackageName()
+                );
+                imageView.setImageResource(imageResId);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
 
-        // Define as informações nos TextViews
+        // Define as informações no layout
         titleTextView.setText(filme.getTitulo());
-        yearDurationTextView.setText(String.format("%s • %s min", filme.getAno(), filme.getDuracao()));
+        yearDurationTextView.setText(filme.getAno() + " • " + filme.getDuracao() + " min");
         descriptionTextView.setText(filme.getDescricao());
 
         // Adiciona botões para as tags
-        adicionarTagsDinamicamente(tagsLayout, filme.getTags());
-    }
-
-    private void configurarImagem(ImageView imageView, String imagePath) {
-        // Verifica e carrega a imagem usando o caminho
-        if (imagePath != null && imagePath.startsWith("android.resource://")) {
-            try {
-                String resourceName = imagePath.substring(imagePath.lastIndexOf("/") + 1);
-                int imageResId = getResources().getIdentifier(resourceName, "drawable", getPackageName());
-                if (imageResId != 0) {
-                    imageView.setImageResource(imageResId);
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-                 // Imagem de fallback em caso de erro
-            }
+        tagsLayout.removeAllViews(); // Limpa as tags existentes
+        for (String tag : filme.getTags().split(",")) {
+            Button botaoTag = new Button(this);
+            botaoTag.setText(tag.trim());
+            // Não é necessário definir cor nos botões conforme pedido
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.WRAP_CONTENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT
+            );
+            params.setMargins(8, 8, 8, 8);
+            botaoTag.setLayoutParams(params);
+            tagsLayout.addView(botaoTag);
         }
-    }
-
-    private void adicionarTagsDinamicamente(LinearLayout tagsLayout, String tags) {
-        // Limpa as tags existentes
-        tagsLayout.removeAllViews();
-
-        if (tags != null && !tags.isEmpty()) {
-            for (String tag : tags.split(",")) {
-                Button botaoTag = new Button(this);
-                botaoTag.setText(tag.trim());
-
-                // Configura o estilo do botão
-                LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
-                        LinearLayout.LayoutParams.WRAP_CONTENT,
-                        LinearLayout.LayoutParams.WRAP_CONTENT
-                );
-                params.setMargins(8, 8, 8, 8);
-                botaoTag.setLayoutParams(params);
-
-                tagsLayout.addView(botaoTag);
-            }
-        }
-    }
-
-    private void exibirMensagemDeErro() {
-        TextView titleTextView = findViewById(R.id.text_title);
-        titleTextView.setText("Filme não encontrado");
-        TextView yearDurationTextView = findViewById(R.id.text_year_duration);
-        yearDurationTextView.setText("");
-        TextView descriptionTextView = findViewById(R.id.text_description);
-        descriptionTextView.setText("Verifique os dados e tente novamente.");
     }
 }
